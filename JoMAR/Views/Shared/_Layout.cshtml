@@ -11,15 +11,16 @@
     <div class="page">
         <header>
             <div id="title">
-                <h1>My MVC Application</h1>
+                <h1>JoMAR chat</h1>
             </div>
             <div id="logindisplay">
                 @Html.Partial("_LogOnPartial")
             </div>
             <nav>
                 <ul id="menu">
-                    <li>@Html.ActionLink("Rooms", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Public Rooms", "Index", "Rooms")</li>
                     @if(Request.IsAuthenticated) {
+                    <li>@Html.ActionLink("My Rooms", "MyRooms")</li>
                     <li>@Html.ActionLink("Profile", "Profile", "Home")</li>
                     }
                     <li>@Html.ActionLink("About", "About", "Home")</li>

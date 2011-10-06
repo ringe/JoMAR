@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace JoMAR.Controllers
 {
-    public class HomeController : Controller
+    public class RoomsController : Controller
     {
         public ActionResult Index()
         {
