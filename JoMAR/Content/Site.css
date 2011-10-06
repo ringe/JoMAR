@@ -3,13 +3,14 @@ The base color for this template is #5c87b2. If you'd like
 to use a different color start by replacing all instances of
 #5c87b2 with your new color.
 ----------------------------------------------------------*/
-body {
-    background-color: #5c87b2;
+body
+{
+    background-color: #339966;
     font-size: .85em;
-    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    font-family: "Trebuchet MS" , Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
-    color: #696969;
+    color: #CCFF99;
 }
 
 a:link {
@@ -100,9 +101,10 @@ header h1, #header h1 {
     text-shadow: 1px 1px 2px #111;
 }
 
-#main {
+#main
+{
     padding: 30px 30px 15px 30px;
-    background-color: #fff;
+    background-color: #33CCFF;
     border-radius: 4px 0 0 0;
     -webkit-border-radius: 4px 0 0 0;
     -moz-border-radius: 4px 0 0 0;
@@ -110,7 +112,7 @@ header h1, #header h1 {
 
 footer, 
 #footer {
-    background-color: #fff;
+    background-color: #33CCFF;
     color: #999;
     padding: 10px 0;
     text-align: center;
