@@ -20,10 +20,10 @@
                 <ul id="menu">
                     <li>@Html.ActionLink("Public Rooms", "Index", "Rooms")</li>
                     @if(Request.IsAuthenticated) {
-                    <li>@Html.ActionLink("My Rooms", "MyRooms")</li>
-                    <li>@Html.ActionLink("Profile", "Profile", "Home")</li>
+                    <li>@Html.ActionLink("My Rooms", "My", "Rooms")</li>
+                    <li>@Html.ActionLink("Profile", "Profile", "User")</li>
                     }
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Rooms")</li>
                 </ul>
             </nav>
         </header>
