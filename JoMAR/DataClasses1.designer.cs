@@ -30,6 +30,12 @@ namespace JoMAR
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertUserRoom(UserRoom instance);
+    partial void UpdateUserRoom(UserRoom instance);
+    partial void DeleteUserRoom(UserRoom instance);
+    partial void InsertChatMessage(ChatMessage instance);
+    partial void UpdateChatMessage(ChatMessage instance);
+    partial void DeleteChatMessage(ChatMessage instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
@@ -39,7 +45,7 @@ namespace JoMAR
     #endregion
 		
 		public DataClasses1DataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["gruppe2_h11ConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["gruppe2_h11ConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -68,6 +74,22 @@ namespace JoMAR
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<UserRoom> UserRooms
+		{
+			get
+			{
+				return this.GetTable<UserRoom>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ChatMessage> ChatMessages
+		{
+			get
+			{
+				return this.GetTable<ChatMessage>();
+			}
+		}
+		
 		public System.Data.Linq.Table<User> Users
 		{
 			get
@@ -85,13 +107,421 @@ namespace JoMAR
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserRooms")]
+	public partial class UserRoom : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _userID;
+		
+		private int _roomID;
+		
+		private EntityRef<User> _User;
+		
+		private EntityRef<ChatRoom> _ChatRoom;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnuserIDChanging(int value);
+    partial void OnuserIDChanged();
+    partial void OnroomIDChanging(int value);
+    partial void OnroomIDChanged();
+    #endregion
+		
+		public UserRoom()
+		{
+			this._User = default(EntityRef<User>);
+			this._ChatRoom = default(EntityRef<ChatRoom>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int userID
+		{
+			get
+			{
+				return this._userID;
+			}
+			set
+			{
+				if ((this._userID != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnuserIDChanging(value);
+					this.SendPropertyChanging();
+					this._userID = value;
+					this.SendPropertyChanged("userID");
+					this.OnuserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_roomID", DbType="Int NOT NULL")]
+		public int roomID
+		{
+			get
+			{
+				return this._roomID;
+			}
+			set
+			{
+				if ((this._roomID != value))
+				{
+					if (this._ChatRoom.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnroomIDChanging(value);
+					this.SendPropertyChanging();
+					this._roomID = value;
+					this.SendPropertyChanged("roomID");
+					this.OnroomIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserRoom", Storage="_User", ThisKey="userID", OtherKey="UserID", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.UserRooms = null;
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.UserRooms = this;
+						this._userID = value.UserID;
+					}
+					else
+					{
+						this._userID = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChatRoom_UserRoom", Storage="_ChatRoom", ThisKey="roomID", OtherKey="RoomID", IsForeignKey=true)]
+		public ChatRoom ChatRoom
+		{
+			get
+			{
+				return this._ChatRoom.Entity;
+			}
+			set
+			{
+				ChatRoom previousValue = this._ChatRoom.Entity;
+				if (((previousValue != value) 
+							|| (this._ChatRoom.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ChatRoom.Entity = null;
+						previousValue.UserRooms.Remove(this);
+					}
+					this._ChatRoom.Entity = value;
+					if ((value != null))
+					{
+						value.UserRooms.Add(this);
+						this._roomID = value.RoomID;
+					}
+					else
+					{
+						this._roomID = default(int);
+					}
+					this.SendPropertyChanged("ChatRoom");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ChatMessages")]
+	public partial class ChatMessage : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _messageID;
+		
+		private System.DateTime _Date;
+		
+		private string _Text;
+		
+		private int _userID;
+		
+		private int _chatRoomID;
+		
+		private EntityRef<User> _User;
+		
+		private EntityRef<ChatRoom> _ChatRoom;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnmessageIDChanging(int value);
+    partial void OnmessageIDChanged();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
+    partial void OnTextChanging(string value);
+    partial void OnTextChanged();
+    partial void OnuserIDChanging(int value);
+    partial void OnuserIDChanged();
+    partial void OnchatRoomIDChanging(int value);
+    partial void OnchatRoomIDChanged();
+    #endregion
+		
+		public ChatMessage()
+		{
+			this._User = default(EntityRef<User>);
+			this._ChatRoom = default(EntityRef<ChatRoom>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_messageID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int messageID
+		{
+			get
+			{
+				return this._messageID;
+			}
+			set
+			{
+				if ((this._messageID != value))
+				{
+					this.OnmessageIDChanging(value);
+					this.SendPropertyChanging();
+					this._messageID = value;
+					this.SendPropertyChanged("messageID");
+					this.OnmessageIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Text", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Text
+		{
+			get
+			{
+				return this._Text;
+			}
+			set
+			{
+				if ((this._Text != value))
+				{
+					this.OnTextChanging(value);
+					this.SendPropertyChanging();
+					this._Text = value;
+					this.SendPropertyChanged("Text");
+					this.OnTextChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userID", DbType="Int NOT NULL")]
+		public int userID
+		{
+			get
+			{
+				return this._userID;
+			}
+			set
+			{
+				if ((this._userID != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnuserIDChanging(value);
+					this.SendPropertyChanging();
+					this._userID = value;
+					this.SendPropertyChanged("userID");
+					this.OnuserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chatRoomID", DbType="Int NOT NULL")]
+		public int chatRoomID
+		{
+			get
+			{
+				return this._chatRoomID;
+			}
+			set
+			{
+				if ((this._chatRoomID != value))
+				{
+					if (this._ChatRoom.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnchatRoomIDChanging(value);
+					this.SendPropertyChanging();
+					this._chatRoomID = value;
+					this.SendPropertyChanged("chatRoomID");
+					this.OnchatRoomIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_ChatMessage", Storage="_User", ThisKey="userID", OtherKey="UserID", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.ChatMessages.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.ChatMessages.Add(this);
+						this._userID = value.UserID;
+					}
+					else
+					{
+						this._userID = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChatRoom_ChatMessage", Storage="_ChatRoom", ThisKey="chatRoomID", OtherKey="RoomID", IsForeignKey=true)]
+		public ChatRoom ChatRoom
+		{
+			get
+			{
+				return this._ChatRoom.Entity;
+			}
+			set
+			{
+				ChatRoom previousValue = this._ChatRoom.Entity;
+				if (((previousValue != value) 
+							|| (this._ChatRoom.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ChatRoom.Entity = null;
+						previousValue.ChatMessages.Remove(this);
+					}
+					this._ChatRoom.Entity = value;
+					if ((value != null))
+					{
+						value.ChatMessages.Add(this);
+						this._chatRoomID = value.RoomID;
+					}
+					else
+					{
+						this._chatRoomID = default(int);
+					}
+					this.SendPropertyChanged("ChatRoom");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Users")]
 	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _Id;
+		private int _UserID;
 		
 		private string _Nick;
 		
@@ -99,14 +529,18 @@ namespace JoMAR
 		
 		private string _Password;
 		
+		private EntityRef<UserRoom> _UserRooms;
+		
+		private EntitySet<ChatMessage> _ChatMessages;
+		
 		private EntitySet<ChatRoom> _ChatRooms;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
+    partial void OnUserIDChanging(int value);
+    partial void OnUserIDChanged();
     partial void OnNickChanging(string value);
     partial void OnNickChanged();
     partial void OnEmailChanging(string value);
@@ -117,26 +551,28 @@ namespace JoMAR
 		
 		public User()
 		{
+			this._UserRooms = default(EntityRef<UserRoom>);
+			this._ChatMessages = new EntitySet<ChatMessage>(new Action<ChatMessage>(this.attach_ChatMessages), new Action<ChatMessage>(this.detach_ChatMessages));
 			this._ChatRooms = new EntitySet<ChatRoom>(new Action<ChatRoom>(this.attach_ChatRooms), new Action<ChatRoom>(this.detach_ChatRooms));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int UserID
 		{
 			get
 			{
-				return this._Id;
+				return this._UserID;
 			}
 			set
 			{
-				if ((this._Id != value))
+				if ((this._UserID != value))
 				{
-					this.OnIdChanging(value);
+					this.OnUserIDChanging(value);
 					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
+					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
 				}
 			}
 		}
@@ -201,7 +637,49 @@ namespace JoMAR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_ChatRoom", Storage="_ChatRooms", ThisKey="Id", OtherKey="UserId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserRoom", Storage="_UserRooms", ThisKey="UserID", OtherKey="userID", IsUnique=true, IsForeignKey=false)]
+		public UserRoom UserRooms
+		{
+			get
+			{
+				return this._UserRooms.Entity;
+			}
+			set
+			{
+				UserRoom previousValue = this._UserRooms.Entity;
+				if (((previousValue != value) 
+							|| (this._UserRooms.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserRooms.Entity = null;
+						previousValue.User = null;
+					}
+					this._UserRooms.Entity = value;
+					if ((value != null))
+					{
+						value.User = this;
+					}
+					this.SendPropertyChanged("UserRooms");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_ChatMessage", Storage="_ChatMessages", ThisKey="UserID", OtherKey="userID")]
+		public EntitySet<ChatMessage> ChatMessages
+		{
+			get
+			{
+				return this._ChatMessages;
+			}
+			set
+			{
+				this._ChatMessages.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_ChatRoom", Storage="_ChatRooms", ThisKey="UserID", OtherKey="UserID")]
 		public EntitySet<ChatRoom> ChatRooms
 		{
 			get
@@ -234,6 +712,18 @@ namespace JoMAR
 			}
 		}
 		
+		private void attach_ChatMessages(ChatMessage entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_ChatMessages(ChatMessage entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
 		private void attach_ChatRooms(ChatRoom entity)
 		{
 			this.SendPropertyChanging();
@@ -253,9 +743,19 @@ namespace JoMAR
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _Id;
+		private int _RoomID;
 		
-		private System.Nullable<int> _UserId;
+		private System.Nullable<int> _UserID;
+		
+		private string _Name;
+		
+		private bool _isPublic;
+		
+		private bool _isPrivate;
+		
+		private EntitySet<ChatMessage> _ChatMessages;
+		
+		private EntitySet<UserRoom> _UserRooms;
 		
 		private EntityRef<User> _User;
 		
@@ -263,63 +763,157 @@ namespace JoMAR
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnUserIdChanging(System.Nullable<int> value);
-    partial void OnUserIdChanged();
+    partial void OnRoomIDChanging(int value);
+    partial void OnRoomIDChanged();
+    partial void OnUserIDChanging(System.Nullable<int> value);
+    partial void OnUserIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnisPublicChanging(bool value);
+    partial void OnisPublicChanged();
+    partial void OnisPrivateChanging(bool value);
+    partial void OnisPrivateChanged();
     #endregion
 		
 		public ChatRoom()
 		{
+			this._ChatMessages = new EntitySet<ChatMessage>(new Action<ChatMessage>(this.attach_ChatMessages), new Action<ChatMessage>(this.detach_ChatMessages));
+			this._UserRooms = new EntitySet<UserRoom>(new Action<UserRoom>(this.attach_UserRooms), new Action<UserRoom>(this.detach_UserRooms));
 			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int RoomID
 		{
 			get
 			{
-				return this._Id;
+				return this._RoomID;
 			}
 			set
 			{
-				if ((this._Id != value))
+				if ((this._RoomID != value))
 				{
-					this.OnIdChanging(value);
+					this.OnRoomIDChanging(value);
 					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
+					this._RoomID = value;
+					this.SendPropertyChanged("RoomID");
+					this.OnRoomIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int")]
-		public System.Nullable<int> UserId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int")]
+		public System.Nullable<int> UserID
 		{
 			get
 			{
-				return this._UserId;
+				return this._UserID;
 			}
 			set
 			{
-				if ((this._UserId != value))
+				if ((this._UserID != value))
 				{
 					if (this._User.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnUserIdChanging(value);
+					this.OnUserIDChanging(value);
 					this.SendPropertyChanging();
-					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
+					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_ChatRoom", Storage="_User", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isPublic", DbType="Bit NOT NULL")]
+		public bool isPublic
+		{
+			get
+			{
+				return this._isPublic;
+			}
+			set
+			{
+				if ((this._isPublic != value))
+				{
+					this.OnisPublicChanging(value);
+					this.SendPropertyChanging();
+					this._isPublic = value;
+					this.SendPropertyChanged("isPublic");
+					this.OnisPublicChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isPrivate", DbType="Bit NOT NULL")]
+		public bool isPrivate
+		{
+			get
+			{
+				return this._isPrivate;
+			}
+			set
+			{
+				if ((this._isPrivate != value))
+				{
+					this.OnisPrivateChanging(value);
+					this.SendPropertyChanging();
+					this._isPrivate = value;
+					this.SendPropertyChanged("isPrivate");
+					this.OnisPrivateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChatRoom_ChatMessage", Storage="_ChatMessages", ThisKey="RoomID", OtherKey="chatRoomID")]
+		public EntitySet<ChatMessage> ChatMessages
+		{
+			get
+			{
+				return this._ChatMessages;
+			}
+			set
+			{
+				this._ChatMessages.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ChatRoom_UserRoom", Storage="_UserRooms", ThisKey="RoomID", OtherKey="roomID")]
+		public EntitySet<UserRoom> UserRooms
+		{
+			get
+			{
+				return this._UserRooms;
+			}
+			set
+			{
+				this._UserRooms.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_ChatRoom", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
 		public User User
 		{
 			get
@@ -342,11 +936,11 @@ namespace JoMAR
 					if ((value != null))
 					{
 						value.ChatRooms.Add(this);
-						this._UserId = value.Id;
+						this._UserID = value.UserID;
 					}
 					else
 					{
-						this._UserId = default(Nullable<int>);
+						this._UserID = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("User");
 				}
@@ -371,6 +965,30 @@ namespace JoMAR
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_ChatMessages(ChatMessage entity)
+		{
+			this.SendPropertyChanging();
+			entity.ChatRoom = this;
+		}
+		
+		private void detach_ChatMessages(ChatMessage entity)
+		{
+			this.SendPropertyChanging();
+			entity.ChatRoom = null;
+		}
+		
+		private void attach_UserRooms(UserRoom entity)
+		{
+			this.SendPropertyChanging();
+			entity.ChatRoom = this;
+		}
+		
+		private void detach_UserRooms(UserRoom entity)
+		{
+			this.SendPropertyChanging();
+			entity.ChatRoom = null;
 		}
 	}
 }

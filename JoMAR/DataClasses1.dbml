@@ -1,19 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="gruppe2_h11" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=malmen.hin.no;Initial Catalog=gruppe2_h11;User ID=gruppe2" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="gruppe2_h11ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=malmen.hin.no;Initial Catalog=gruppe2_h11;User ID=gruppe2" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="gruppe2_h11ConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.UserRooms" Member="UserRooms">
+    <Type Name="UserRoom">
+      <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="roomID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="User_UserRoom" Member="User" ThisKey="userID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="ChatRoom_UserRoom" Member="ChatRoom" ThisKey="roomID" OtherKey="RoomID" Type="ChatRoom" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ChatMessages" Member="ChatMessages">
+    <Type Name="ChatMessage">
+      <Column Name="messageID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Text" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="chatRoomID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="User_ChatMessage" Member="User" ThisKey="userID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="ChatRoom_ChatMessage" Member="ChatRoom" ThisKey="chatRoomID" OtherKey="RoomID" Type="ChatRoom" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Users" Member="Users">
     <Type Name="User">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Nick" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Column Name="Email" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="Password" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
-      <Association Name="User_ChatRoom" Member="ChatRooms" ThisKey="Id" OtherKey="UserId" Type="ChatRoom" />
+      <Association Name="User_UserRoom" Member="UserRooms" ThisKey="UserID" OtherKey="userID" Type="UserRoom" Cardinality="One" />
+      <Association Name="User_ChatMessage" Member="ChatMessages" ThisKey="UserID" OtherKey="userID" Type="ChatMessage" />
+      <Association Name="User_ChatRoom" Member="ChatRooms" ThisKey="UserID" OtherKey="UserID" Type="ChatRoom" />
     </Type>
   </Table>
   <Table Name="dbo.ChatRooms" Member="ChatRooms">
     <Type Name="ChatRoom">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="User_ChatRoom" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Column Name="RoomID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="isPublic" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="isPrivate" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="ChatRoom_ChatMessage" Member="ChatMessages" ThisKey="RoomID" OtherKey="chatRoomID" Type="ChatMessage" />
+      <Association Name="ChatRoom_UserRoom" Member="UserRooms" ThisKey="RoomID" OtherKey="roomID" Type="UserRoom" />
+      <Association Name="User_ChatRoom" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
