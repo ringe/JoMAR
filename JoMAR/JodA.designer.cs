@@ -45,7 +45,7 @@ namespace JoMAR
     #endregion
 		
 		public JodADataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["gruppe2_h11ConnectionString1"].ConnectionString, mappingSource)
+				base(global::JoMAR.Properties.Settings.Default.ConnString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -104,6 +104,25 @@ namespace JoMAR
 			{
 				return this.GetTable<aspnet_User>();
 			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetAllUsers")]
+		public void aspnet_Membership_GetAllUsers([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ApplicationName", DbType="NVarChar(256)")] string applicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageIndex", DbType="Int")] System.Nullable<int> pageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageSize", DbType="Int")] System.Nullable<int> pageSize)
+		{
+			this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), applicationName, pageIndex, pageSize);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetNumberOfUsersOnline")]
+		public int aspnet_Membership_GetNumberOfUsersOnline([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ApplicationName", DbType="NVarChar(256)")] string applicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MinutesSinceLastInActive", DbType="Int")] System.Nullable<int> minutesSinceLastInActive, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CurrentTimeUtc", DbType="DateTime")] System.Nullable<System.DateTime> currentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), applicationName, minutesSinceLastInActive, currentTimeUtc);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_FindUsersByName")]
+		public void aspnet_Membership_FindUsersByName([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ApplicationName", DbType="NVarChar(256)")] string applicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserNameToMatch", DbType="NVarChar(256)")] string userNameToMatch, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageIndex", DbType="Int")] System.Nullable<int> pageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageSize", DbType="Int")] System.Nullable<int> pageSize)
+		{
+			this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), applicationName, userNameToMatch, pageIndex, pageSize);
 		}
 	}
 	

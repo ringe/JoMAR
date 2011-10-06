@@ -166,6 +166,7 @@
     </None>
     <Content Include="Views\Rooms\About.cshtml" />
     <Content Include="Views\Rooms\Index.cshtml" />
+    <Content Include="Views\Rooms\Chat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

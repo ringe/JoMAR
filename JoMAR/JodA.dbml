@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="gruppe2_h11" Class="JodADataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=malmen.hin.no;Initial Catalog=gruppe2_h11;User ID=gruppe2" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="gruppe2_h11ConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=malmen.hin.no;Initial Catalog=gruppe2_h11;User ID=gruppe2" SettingsObjectName="JoMAR.Properties.Settings" SettingsPropertyName="ConnString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.UserRooms" Member="UserRooms">
     <Type Name="UserRoom">
       <Column Name="RoomID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -45,4 +45,21 @@
       <Association Name="aspnet_User_ChatMessage" Member="ChatMessages" ThisKey="UserId" OtherKey="UserID" Type="ChatMessage" />
     </Type>
   </Table>
+  <Function Name="dbo.aspnet_Membership_GetAllUsers" Method="aspnet_Membership_GetAllUsers">
+    <Parameter Name="ApplicationName" Parameter="applicationName" Type="System.String" DbType="NVarChar(256)" />
+    <Parameter Name="PageIndex" Parameter="pageIndex" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PageSize" Parameter="pageSize" Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="dbo.aspnet_Membership_GetNumberOfUsersOnline" Method="aspnet_Membership_GetNumberOfUsersOnline">
+    <Parameter Name="ApplicationName" Parameter="applicationName" Type="System.String" DbType="NVarChar(256)" />
+    <Parameter Name="MinutesSinceLastInActive" Parameter="minutesSinceLastInActive" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CurrentTimeUtc" Parameter="currentTimeUtc" Type="System.DateTime" DbType="DateTime" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.aspnet_Membership_FindUsersByName" Method="aspnet_Membership_FindUsersByName">
+    <Parameter Name="ApplicationName" Parameter="applicationName" Type="System.String" DbType="NVarChar(256)" />
+    <Parameter Name="UserNameToMatch" Parameter="userNameToMatch" Type="System.String" DbType="NVarChar(256)" />
+    <Parameter Name="PageIndex" Parameter="pageIndex" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PageSize" Parameter="pageSize" Type="System.Int32" DbType="Int" />
+  </Function>
 </Database>
