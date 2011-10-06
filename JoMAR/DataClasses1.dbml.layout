@@ -2,6 +2,7 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DataClasses1">
   <DataContextMoniker Name="/DataClasses1DataContext" />
   <nestedChildShapes>
+<<<<<<< HEAD
     <classShape Id="eb2ab765-b058-4f92-b610-422cbe640ede" absoluteBounds="0.5, 3.125, 2, 1.1939925130208333">
       <DataClassMoniker Name="/DataClasses1DataContext/UserRoom" />
       <nestedChildShapes>
@@ -59,6 +60,65 @@
       <nodes>
         <classShapeMoniker Id="a2f065bc-f4b7-4ef5-b8fd-f951cf576e4d" />
         <classShapeMoniker Id="eb2ab765-b058-4f92-b610-422cbe640ede" />
+=======
+    <classShape Id="234cf403-3660-4926-a131-59158cc16c15" absoluteBounds="1.25, 2, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/DataClasses1DataContext/aspnet_User" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4ac395a3-891a-4e63-aa76-0c1834d4481b" absoluteBounds="1.2650000000000001, 2.46, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b6e6698d-c457-4728-b7f8-90ffb2292d5a" absoluteBounds="1.25, 5.5, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/DataClasses1DataContext/ChatMessage" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7e1e9a19-e341-447a-8cc6-c21e9ed6ae16" absoluteBounds="1.2649999999999997, 5.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.25 : 4.15549967447917); (2.25 : 5.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClasses1DataContext/aspnet_User/aspnet_User_ChatMessage" />
+      <nodes>
+        <classShapeMoniker Id="234cf403-3660-4926-a131-59158cc16c15" />
+        <classShapeMoniker Id="b6e6698d-c457-4728-b7f8-90ffb2292d5a" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="b92aea6d-5a4a-4911-a67f-854614375c55" absoluteBounds="5.625, 1.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/DataClasses1DataContext/ChatRoom" />
+      <nestedChildShapes>
+        <elementListCompartment Id="81a237d9-fbd8-4bc7-9548-7d8cfef331e6" absoluteBounds="5.64, 2.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(6.96875 : 3.64589680989583); (6.96875 : 6.95119466145833); (3.25 : 6.95119466145833)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClasses1DataContext/ChatRoom/ChatRoom_ChatMessage" />
+      <nodes>
+        <classShapeMoniker Id="b92aea6d-5a4a-4911-a67f-854614375c55" />
+        <classShapeMoniker Id="b6e6698d-c457-4728-b7f8-90ffb2292d5a" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(3.25 : 2.96357340494792); (5.625 : 2.96357340494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClasses1DataContext/aspnet_User/aspnet_User_ChatRoom" />
+      <nodes>
+        <classShapeMoniker Id="234cf403-3660-4926-a131-59158cc16c15" />
+        <classShapeMoniker Id="b92aea6d-5a4a-4911-a67f-854614375c55" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="db109909-e99e-479e-b802-0e5bc8aa7cac" absoluteBounds="4.25, 5.375, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/DataClasses1DataContext/UserRoom" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2241b2df-42bf-4f73-a8fd-f2542eaaadde" absoluteBounds="4.265, 5.835, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.25 : 3.696416671917); (5.0624975 : 3.696416671917); (5.0624975 : 5.375)]" fixedFrom="Caller" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClasses1DataContext/aspnet_User/aspnet_User_UserRoom" />
+      <nodes>
+        <classShapeMoniker Id="234cf403-3660-4926-a131-59158cc16c15" />
+        <classShapeMoniker Id="db109909-e99e-479e-b802-0e5bc8aa7cac" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.9375 : 3.64589680989583); (5.9375 : 5.375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClasses1DataContext/ChatRoom/ChatRoom_UserRoom" />
+      <nodes>
+        <classShapeMoniker Id="b92aea6d-5a4a-4911-a67f-854614375c55" />
+        <classShapeMoniker Id="db109909-e99e-479e-b802-0e5bc8aa7cac" />
+>>>>>>> 36895b77723e38027aa5951632aae45c7fdc896e
       </nodes>
     </associationConnector>
   </nestedChildShapes>
