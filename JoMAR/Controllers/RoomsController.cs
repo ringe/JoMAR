@@ -27,5 +27,14 @@ namespace JoMAR.Controllers
 
             return View(users);
         }
+
+        public ActionResult PublicRooms()
+        {
+            JodADataContext db = new JodADataContext();
+            var rooms = db.ChatRooms.ToList();
+
+            return View(rooms);
+
+        }
     }
 }

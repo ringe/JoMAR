@@ -1,0 +1,28 @@
+﻿@model IEnumerable<JoMAR.ChatRoom>
+
+@{
+    ViewBag.Title = "PulbicRooms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>PulbicRooms</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+    </tr>
+}
+
+</table>

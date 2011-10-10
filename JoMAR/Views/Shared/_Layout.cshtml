@@ -18,7 +18,7 @@
             </div>
             <nav>
                 <ul id="menu">
-                    <li>@Html.ActionLink("Public Rooms", "Index", "Rooms")</li>
+                    <li>@Html.ActionLink("Public Rooms", "PublicRooms", "Rooms")</li>
                     @if(Request.IsAuthenticated) {
                     <li>@Html.ActionLink("My Rooms", "My", "Rooms")</li>
                     <li>@Html.ActionLink("Profile", "Profile", "User")</li>
