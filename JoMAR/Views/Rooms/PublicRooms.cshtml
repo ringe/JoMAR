@@ -5,24 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>PulbicRooms</h2>
+<h2>Pulbic ChatRooms</h2>
+<select size="20" id="ChatRooms" name ="Room">
+@foreach (var item in Model)
+{
+<option>@Html.DisplayFor(modelItem => item.Name) </option>
+}
+</select> 
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <td>
+     @Html.ActionLink("Create new room", "Create") <td>&nbsp; &nbsp;</td>
+     @Html.ActionLink("Go to room", "getRoom") 
+    </td>
 </p>
-<table>
-    <tr>
-        <th>
-            Name
-        </th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-    </tr>
-}
-
-</table>

@@ -324,3 +324,10 @@ div#title {
 .tri-state {
     width: 6em;
 }
+
+/* Egendefinerte stiler
+-----------------------------------------------------------*/
+#ChatRooms
+{
+   width: 300px;
+}

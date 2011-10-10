@@ -3,6 +3,15 @@
 }
 
 <h2>@ViewBag.Message</h2>
-<p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-</p>
+@if (Request.IsAuthenticated)
+{
+    <p> Welcome to JoMAR's online chat! You are logged in and ready to chat with other people! </p>
+}
+else
+{
+   <p>
+    Welcome to JoMAR's online chat! 
+    To begin, you must first log in
+   </p>  
+    
+}

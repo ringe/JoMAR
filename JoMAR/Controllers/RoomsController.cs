@@ -34,7 +34,12 @@ namespace JoMAR.Controllers
             var rooms = db.ChatRooms.ToList();
 
             return View(rooms);
+        }
 
+        public ActionResult getRoom(ChatRoom cr)
+        {
+            return View(cr);
+            
         }
     }
 }
