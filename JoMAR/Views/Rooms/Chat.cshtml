@@ -1,6 +1,65 @@
-﻿@{
-    ViewBag.Title = "Chat";
+﻿@model IEnumerable<JoMAR.aspnet_User>
+
+@{
+    ViewBag.Title = "ViewPage1";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Chat</h2>
+<h2>ViewPage1</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            ApplicationId
+        </th>
+        <th>
+            UserName
+        </th>
+        <th>
+            LoweredUserName
+        </th>
+        <th>
+            MobileAlias
+        </th>
+        <th>
+            IsAnonymous
+        </th>
+        <th>
+            LastActivityDate
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoweredUserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MobileAlias)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAnonymous)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastActivityDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserId })
+        </td>
+    </tr>
+}
+
+</table>
+

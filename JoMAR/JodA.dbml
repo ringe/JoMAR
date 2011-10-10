@@ -32,7 +32,7 @@
     </Type>
   </Table>
   <Table Name="dbo.aspnet_Users" Member="aspnet_Users">
-    <Type Name="aspnet_User">
+    <Type Name="aspnet_User" Id="ID1">
       <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="UserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
@@ -45,10 +45,11 @@
       <Association Name="aspnet_User_ChatMessage" Member="ChatMessages" ThisKey="UserId" OtherKey="UserID" Type="ChatMessage" />
     </Type>
   </Table>
-  <Function Name="dbo.aspnet_Membership_GetAllUsers" Method="aspnet_Membership_GetAllUsers">
+  <Function Name="dbo.aspnet_Membership_GetAllUsers" Method="aspnet_Membership_GetAllUsers" IsComposable="true">
     <Parameter Name="ApplicationName" Parameter="applicationName" Type="System.String" DbType="NVarChar(256)" />
     <Parameter Name="PageIndex" Parameter="pageIndex" Type="System.Int32" DbType="Int" />
     <Parameter Name="PageSize" Parameter="pageSize" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
   </Function>
   <Function Name="dbo.aspnet_Membership_GetNumberOfUsersOnline" Method="aspnet_Membership_GetNumberOfUsersOnline">
     <Parameter Name="ApplicationName" Parameter="applicationName" Type="System.String" DbType="NVarChar(256)" />
@@ -56,10 +57,11 @@
     <Parameter Name="CurrentTimeUtc" Parameter="currentTimeUtc" Type="System.DateTime" DbType="DateTime" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.aspnet_Membership_FindUsersByName" Method="aspnet_Membership_FindUsersByName">
+  <Function Name="dbo.aspnet_Membership_FindUsersByName" Method="aspnet_Membership_FindUsersByName" IsComposable="true">
     <Parameter Name="ApplicationName" Parameter="applicationName" Type="System.String" DbType="NVarChar(256)" />
     <Parameter Name="UserNameToMatch" Parameter="userNameToMatch" Type="System.String" DbType="NVarChar(256)" />
     <Parameter Name="PageIndex" Parameter="pageIndex" Type="System.Int32" DbType="Int" />
     <Parameter Name="PageSize" Parameter="pageSize" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
   </Function>
 </Database>

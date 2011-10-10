@@ -106,10 +106,10 @@ namespace JoMAR
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetAllUsers")]
-		public void aspnet_Membership_GetAllUsers([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ApplicationName", DbType="NVarChar(256)")] string applicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageIndex", DbType="Int")] System.Nullable<int> pageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageSize", DbType="Int")] System.Nullable<int> pageSize)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetAllUsers", IsComposable=true)]
+		public IQueryable<aspnet_User> aspnet_Membership_GetAllUsers([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ApplicationName", DbType="NVarChar(256)")] string applicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageIndex", DbType="Int")] System.Nullable<int> pageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageSize", DbType="Int")] System.Nullable<int> pageSize)
 		{
-			this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), applicationName, pageIndex, pageSize);
+			return this.CreateMethodCallQuery<aspnet_User>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), applicationName, pageIndex, pageSize);
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetNumberOfUsersOnline")]
@@ -119,10 +119,10 @@ namespace JoMAR
 			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_FindUsersByName")]
-		public void aspnet_Membership_FindUsersByName([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ApplicationName", DbType="NVarChar(256)")] string applicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserNameToMatch", DbType="NVarChar(256)")] string userNameToMatch, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageIndex", DbType="Int")] System.Nullable<int> pageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageSize", DbType="Int")] System.Nullable<int> pageSize)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_FindUsersByName", IsComposable=true)]
+		public IQueryable<aspnet_User> aspnet_Membership_FindUsersByName([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ApplicationName", DbType="NVarChar(256)")] string applicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserNameToMatch", DbType="NVarChar(256)")] string userNameToMatch, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageIndex", DbType="Int")] System.Nullable<int> pageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageSize", DbType="Int")] System.Nullable<int> pageSize)
 		{
-			this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), applicationName, userNameToMatch, pageIndex, pageSize);
+			return this.CreateMethodCallQuery<aspnet_User>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), applicationName, userNameToMatch, pageIndex, pageSize);
 		}
 	}
 	

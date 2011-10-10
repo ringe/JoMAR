@@ -38,7 +38,7 @@ namespace JoMAR.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Rooms");
                     }
                 }
                 else
@@ -58,7 +58,7 @@ namespace JoMAR.Controllers
         {
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Rooms");
         }
 
         //
@@ -84,7 +84,7 @@ namespace JoMAR.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Rooms");
                 }
                 else
                 {

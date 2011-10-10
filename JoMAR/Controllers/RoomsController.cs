@@ -22,8 +22,10 @@ namespace JoMAR.Controllers
 
         public ActionResult Chat()
         {
+            JodADataContext db = new JodADataContext();
+            var users = db.aspnet_Users.ToList();
 
-            return View();
+            return View(users);
         }
     }
 }
