@@ -46,6 +46,17 @@ namespace JoMAR.Controllers
         
         }
 
+        public ActionResult create()
+        {
+            JodADataContext db = new JodADataContext();
+            var rooms = db.ChatRooms.First();
+
+
+            return View(rooms);
+
+        }
+            
+
         public ActionResult getRoom(ChatRoom cr)
         {
             return View(cr);
