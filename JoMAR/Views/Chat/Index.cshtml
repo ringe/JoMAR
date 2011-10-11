@@ -4,27 +4,32 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@Html.DisplayTextFor(model => model.Name)</h2>
 
 <fieldset>
     <legend>ChatModel</legend>
 
     <div class="display-label">MessageBoard</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.MessageBoard)
+        <ul>
+            @foreach(var message in Model.MessageBoard) {
+            <li>(@message.Date) @message.aspnet_User.UserName said: @message.Text</li>
+            }
+        </ul>
     </div>
 
-    <div class="display-label">MessageBoard</div>
+    <div class="display-label">Users</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Users)
+        <ul>
+            @foreach (var user in Model.Users)
+            {
+            <li>@user.UserName</li>
+            }
+        </ul>
     </div>
 
     <div class="display-label">Message</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Message)
+        @Html.TextArea("message")
     </div>
 </fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

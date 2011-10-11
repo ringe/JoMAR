@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,11 +13,24 @@ namespace JoMAR.Controllers
 
         public ActionResult Index(string name)
         {
-            ViewBag.Title = name;
+            JodADataContext db = new JodADataContext();
+            ChatRoom room = (from p in db.ChatRooms
+                       where p.Name == name
+                       select p).First();
 
-            new JoMAR.Models.ChatModel();
+            var model = new JoMAR.Models.ChatModel();
+            model.MessageBoard = room.ChatMessages.ToArray();
+            model.Users = new aspnet_User[room.UserRooms.Count];
 
-            return View();
+            int i=0;
+            foreach (UserRoom r in room.UserRooms)
+            {
+                model.Users[i] = r.aspnet_User;
+                i++;
+            }
+
+            ViewBag.Title = model.Name = name;
+            return View(model);
         }
 
     }

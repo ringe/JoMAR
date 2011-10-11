@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Web.Mvc;
@@ -9,6 +9,10 @@ namespace JoMAR.Models
 {
     public class ChatModel
     {
+        [Required]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
         [Required]
         [Display(Name = "MessageBoard")]
         public ChatMessage[] MessageBoard { get; set; }
