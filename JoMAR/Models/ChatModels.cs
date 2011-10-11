@@ -11,13 +11,13 @@ namespace JoMAR.Models
     {
         [Required]
         [Display(Name = "MessageBoard")]
-        public string MessageBoard { get; set; }
+        public ChatMessage[] MessageBoard { get; set; }
 
         [Required]
         [Display(Name = "Users")]
         public aspnet_User[] Users { get; set; }
 
         [Display(Name = "Message")]
-        public bool Message { get; set; }
+        public ChatMessage Message { get; set; }
     }
 }

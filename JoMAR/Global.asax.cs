@@ -22,17 +22,16 @@ namespace JoMAR
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "Default", // Route name
-                "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Rooms", action = "Index", id = UrlParameter.Optional } // Parameter defaults
-            );
-
-            routes.MapRoute(
                 "Chat",
                 "Chat/{name}",
                 new { controller = "Chat", action = "Index", id = UrlParameter.Optional }
             );
 
+            routes.MapRoute(
+                "Default", // Route name
+                "{controller}/{action}/{id}", // URL with parameters
+                new { controller = "Rooms", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+            );
         }
 
         protected void Application_Start()

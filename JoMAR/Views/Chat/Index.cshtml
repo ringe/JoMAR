@@ -1,11 +1,10 @@
 ﻿@model JoMAR.Models.ChatModel
 
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <fieldset>
     <legend>ChatModel</legend>
@@ -13,6 +12,11 @@
     <div class="display-label">MessageBoard</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.MessageBoard)
+    </div>
+
+    <div class="display-label">MessageBoard</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Users)
     </div>
 
     <div class="display-label">Message</div>

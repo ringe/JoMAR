@@ -13,7 +13,10 @@ namespace JoMAR.Controllers
 
         public ActionResult Index(string name)
         {
-            ViewBag.Name = name;
+            ViewBag.Title = name;
+
+            new JoMAR.Models.ChatModel();
+
             return View();
         }
 
