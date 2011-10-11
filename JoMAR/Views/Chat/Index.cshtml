@@ -1,0 +1,26 @@
+﻿@model JoMAR.Models.ChatModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<fieldset>
+    <legend>ChatModel</legend>
+
+    <div class="display-label">MessageBoard</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MessageBoard)
+    </div>
+
+    <div class="display-label">Message</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Message)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

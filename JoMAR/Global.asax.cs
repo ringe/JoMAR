@@ -27,6 +27,12 @@ namespace JoMAR
                 new { controller = "Rooms", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
 
+            routes.MapRoute(
+                "Chat",
+                "Chat/{name}",
+                new { controller = "Chat", action = "Index", id = UrlParameter.Optional }
+            );
+
         }
 
         protected void Application_Start()
