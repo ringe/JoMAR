@@ -154,7 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Chat\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -177,8 +176,8 @@
     <Content Include="Views\Rooms\edit.cshtml" />
     <Content Include="Views\Rooms\create.cshtml" />
     <Content Include="Views\Rooms\createRooms.cshtml" />
-    <Content Include="Views\Rooms\editRooms.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Rooms\editRooms.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
