@@ -178,6 +178,7 @@
     <Content Include="Views\Rooms\create.cshtml" />
     <Content Include="Views\Rooms\createRooms.cshtml" />
     <Content Include="Views\Rooms\editRooms.cshtml" />
+    <Content Include="Views\Chat\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
