@@ -4,8 +4,7 @@
     ViewBag.Title = "MyRooms";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>MyRooms</h2>
+<h2>My Rooms</h2>
 <table>
     <tr>
         <th>
@@ -21,8 +20,8 @@
     </tr>
 
 @foreach (var item in Model)
-{ 
-    if(item.aspnet_User.UserName.Equals(User.Identity.Name))
+{
+    if (item.aspnet_User.UserName.Equals(User.Identity.Name))
     {
     <tr>
         <td>
@@ -40,14 +39,7 @@
         </td>
     </tr>
     }
-   else if(!item.aspnet_User.UserName.Equals(User.Identity.Name))
-    {
-        <tr>
-            <td>
-                No Rooms
-            </td>
-        </tr>
-    }
 }
 </table>
+
 

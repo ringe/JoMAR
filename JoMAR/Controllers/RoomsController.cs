@@ -38,13 +38,13 @@ namespace JoMAR.Controllers
 
         public ActionResult edit(string returnUrl)
         {
-            JodADataContext db = new JodADataContext();
-            ChatRoom room = (from p in db.ChatRooms
-                             where p.Name == Url.RequestContext.RouteData.Values.Last().Value
-                             select p).First();
+          
+                JodADataContext db = new JodADataContext();
+                ChatRoom room = (from p in db.ChatRooms
+                                 where p.Name == Url.RequestContext.RouteData.Values.Last().Value
+                                 select p).First();
 
-
-            return View(room);       
+                return View(room);
         }
 
         public ActionResult create()
@@ -57,14 +57,11 @@ namespace JoMAR.Controllers
             return View(rooms);
         }
 
-
-        }
-
         [HttpPost]
         public ActionResult create(ChatRoom model, string returnUrl)
         {
             JodADataContext db = new JodADataContext();
-            
+
 
             if (ModelState.IsValid)
             {
@@ -76,6 +73,7 @@ namespace JoMAR.Controllers
                 return RedirectToRoute(new { controller = "Chat", id = model.Name });
             }
             return View(model);
+        }
 
         public ActionResult MyRooms()
         {
