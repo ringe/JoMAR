@@ -1,21 +1,50 @@
 ﻿@model IEnumerable<JoMAR.ChatRoom>
 
 @{
-    ViewBag.Title = "PulbicRooms";
+    ViewBag.Title = "PublicRooms";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Pulbic ChatRooms</h2>
-<select size="20" id="ChatRooms" name ="Room">
-@foreach (var item in Model)
-{
-<option>@Html.DisplayFor(modelItem => item.Name) </option>
-}
-</select> 
+<h2>Public ChatRooms</h2>
 
 <p>
-    <td>
-     @Html.ActionLink("Create new room", "create") <td>&nbsp; &nbsp;</td>
-     @Html.ActionLink("Go to room", "getRoom") 
-    </td>
+    @Html.ActionLink("Create New chatroom", "create")
 </p>
+<table>
+    <tr>
+        <th>
+            Chatrooms
+        </th>
+        <th>
+            Public Chatroom
+        </th>
+        <th>
+            Private Chatroom
+        </th>
+        <th>
+           Owner of room 
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isPublic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isPrivate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.aspnet_User.UserName)
+        </td>
+        <td>
+            @Html.ActionLink("Enter", "", "Chat/"+ item.Name )        
+        </td>
+    </tr>   
+}
+
+</table>
