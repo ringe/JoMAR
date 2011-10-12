@@ -33,11 +33,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.UserID)
+            @Html.LabelFor(model => model.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.UserID)
-            @Html.ValidationMessageFor(model => model.UserID)
+            @User.Identity.Name
+            @Html.ValidationMessageFor(model => User.Identity.Name)
         </div>
 
         <p>
