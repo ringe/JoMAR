@@ -16,35 +16,26 @@
             Chatrooms
         </th>
         <th>
-            Public Chatroom
-        </th>
-        <th>
-            Private Chatroom
-        </th>
-        <th>
            Owner of room 
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
+    if (item.isPublic)
+    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.isPublic)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.isPrivate)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.aspnet_User.UserName)
         </td>
         <td>
-            @Html.ActionLink("Enter", "", "Chat/"+ item.Name )        
+            @Html.ActionLink("Enter" + (item.isPrivate ? " Private" : ""), "", "Chat/" + item.Name)        
         </td>
-    </tr>   
+    </tr> 
+    }        
 }
 
 </table>
