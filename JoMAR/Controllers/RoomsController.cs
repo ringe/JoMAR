@@ -32,26 +32,48 @@ namespace JoMAR.Controllers
         {
             JodADataContext db = new JodADataContext();
             var rooms = db.ChatRooms.ToList();
-
+            
             return View(rooms);
         }
 
-        public ActionResult edit()
+        public ActionResult edit(string returnUrl)
         {
             JodADataContext db = new JodADataContext();
-            var rooms = db.ChatRooms.First();
+            ChatRoom room = (from p in db.ChatRooms
+                             where p.Name == Url.RequestContext.RouteData.Values.Last().Value
+                             select p).First();
 
-            return View(rooms);       
+
+            return View(room);       
         }
 
         public ActionResult create()
         {
             JodADataContext db = new JodADataContext();
-            var rooms = db.ChatRooms.First();
+            
+            var rooms = new ChatRoom();
 
 
             return View(rooms);
 
-        }        
+        }
+
+        [HttpPost]
+        public ActionResult create(ChatRoom model, string returnUrl)
+        {
+            JodADataContext db = new JodADataContext();
+            
+
+            if (ModelState.IsValid)
+            {
+                model.UserID = new Guid("bf20231b-bc70-49d9-a19a-11a3afbeda59");
+                db.ChatRooms.InsertOnSubmit(model);
+
+                db.SubmitChanges();
+
+                return RedirectToRoute(new { controller = "Chat", id = model.Name });
+            }
+            return View(model);
+        }
     }
 }
