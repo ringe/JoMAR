@@ -6,7 +6,6 @@
 }
 
 <h2>MyRooms</h2>
-
 <table>
     <tr>
         <th>
@@ -21,7 +20,10 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{ 
+    if(item.aspnet_User.UserName.Equals(User.Identity.Name))
+    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -37,6 +39,15 @@
             @Html.ActionLink("Delete", "Delete", new { id = item.RoomID })
         </td>
     </tr>
+    }
+   else if(!item.aspnet_User.UserName.Equals(User.Identity.Name))
+    {
+        <tr>
+            <td>
+                No Rooms
+            </td>
+        </tr>
+    }
 }
-
 </table>
+
