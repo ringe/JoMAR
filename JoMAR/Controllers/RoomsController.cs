@@ -10,7 +10,7 @@ namespace JoMAR.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
+            ViewBag.Message = "Welcome to JoMAR's online Chat!";
 
             return View();
         }
@@ -55,6 +55,8 @@ namespace JoMAR.Controllers
 
 
             return View(rooms);
+        }
+
 
         }
 
@@ -74,6 +76,13 @@ namespace JoMAR.Controllers
                 return RedirectToRoute(new { controller = "Chat", id = model.Name });
             }
             return View(model);
+
+        public ActionResult MyRooms()
+        {
+            JodADataContext db = new JodADataContext();
+            var rooms = db.ChatRooms.ToList();
+
+            return View(rooms);
         }
     }
 }
