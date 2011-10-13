@@ -158,6 +158,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ConnectionStrings.config" />
     <None Include="JodA.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>JodA.designer.cs</LastGenOutput>
