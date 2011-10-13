@@ -6,19 +6,21 @@
 
 <h2>@Html.DisplayTextFor(model => model.Name)</h2>
 
-<fieldset>
-    <legend>ChatModel</legend>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>ChatModel</legend>
 
-    <div class="display-label">MessageBoard</div>
-    <div class="display-field">
-        <ul>
-            @foreach(var message in Model.MessageBoard) {
-            <li>(@message.Date) @message.aspnet_User.UserName said: @message.Text</li>
-            }
-        </ul>
-    </div>
-
-    <div class="display-label">Users</div>
+        <div class="display-label">MessageBoard</div>
+        <div class="display-field">
+            @Html.TextArea(@Model.MessageBoard.ToString())
+            <ul>
+                @foreach(var message in Model.MessageBoard) {
+                <li>(@message.Date) @message.aspnet_User.UserName said: @message.Text</li>
+                }
+            </ul>
+        </div>
+        <div class="display-label">Users</div>
     <div class="display-field">
         <ul>
             @foreach (var user in Model.Users)
@@ -29,7 +31,12 @@
     </div>
 
     <div class="display-label">Message</div>
-    <div class="display-field">
+    <div class="editor-field">
         @Html.TextArea("message")
     </div>
-</fieldset>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
