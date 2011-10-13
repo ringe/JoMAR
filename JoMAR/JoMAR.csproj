@@ -172,6 +172,7 @@
     <Content Include="Views\Rooms\editRooms.cshtml" />
     <Content Include="Views\Rooms\PublicRooms.cshtml" />
     <Content Include="Views\Rooms\MyRooms.cshtml" />
+    <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
