@@ -164,7 +164,6 @@
     </None>
     <Content Include="Views\Rooms\About.cshtml" />
     <Content Include="Views\Rooms\Index.cshtml" />
-    <Content Include="Views\Rooms\Chat.cshtml" />
     <Content Include="Views\Rooms\edit.cshtml" />
     <Content Include="Views\Rooms\create.cshtml" />
     <Content Include="Views\Rooms\createRooms.cshtml" />
