@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,14 +21,15 @@ namespace JoMAR.Controllers
 
             var model = new JoMAR.Models.ChatModel();
             model.MessageBoard = room.ChatMessages.ToArray();
-            model.Users = new aspnet_User[room.UserRooms.Count];
 
-            int i=0;
-            foreach (UserRoom r in room.UserRooms)
-            {
-                model.Users[i] = r.aspnet_User;
-                i++;
-            }
+
+            model.Users = (from user in db.aspnet_Users
+                                              join m2m in db.UserRooms on user.UserId equals m2m.UserID
+                                              where m2m.RoomID == room.RoomID
+                                              select user).ToList();
+
+            if (!model.Users.Contains(room.aspnet_User))
+                model.Users.Add(room.aspnet_User);
 
             ViewBag.Title = model.Name = name;
             return View(model);
@@ -40,20 +42,20 @@ namespace JoMAR.Controllers
             ChatRoom room = (from p in db.ChatRooms
                              where p.Name == model.Name
                              select p).First();
-            ChatMessage message = model.Message;
 
             // Prepare message for submit
+            ChatMessage message = new ChatMessage();
+            message.Date = DateTime.Now;
             message.MessageID = Guid.NewGuid();
             message.UserID = (from p in db.aspnet_Users
                                 where p.UserName == User.Identity.Name
                                 select p).First().UserId;
-            message.Text = model.Message.Text;
+            message.RoomID = room.RoomID;
+            message.Text = model.Message;
 
             // Submit message to DB
-            db.ChatMessages.InsertOnSubmit(model.Message);
+            db.ChatMessages.InsertOnSubmit(message);
             db.SubmitChanges();
-
-            room.ChatMessages.Add(message);
 
             model.MessageBoard = room.ChatMessages.ToArray();
 

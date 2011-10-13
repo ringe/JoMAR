@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Web.Mvc;
@@ -9,6 +10,14 @@ namespace JoMAR.Models
 {
     public class ChatModel
     {
+        public string Messages() {
+            string messages ="";
+            foreach (var message in MessageBoard) {
+                messages += message.Date + " " + message.aspnet_User.UserName + " said: " + message.Text + "\n";
+            }
+            return messages;
+        }
+
         [Required]
         [Display(Name = "Name")]
         public string Name { get; set; }
@@ -19,9 +28,10 @@ namespace JoMAR.Models
 
         [Required]
         [Display(Name = "Users")]
-        public aspnet_User[] Users { get; set; }
+        public List<aspnet_User> Users { get; set; }
+        //public aspnet_User[] Users { get; set; }
 
         [Display(Name = "Message")]
-        public ChatMessage Message { get; set; }
+        public string Message { get; set; }
     }
 }

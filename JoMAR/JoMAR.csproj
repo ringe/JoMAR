@@ -172,7 +172,6 @@
     <Content Include="Views\Rooms\PublicRooms.cshtml" />
     <Content Include="Views\Rooms\MyRooms.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Chat\ViewPage1.cshtml" />
     <Content Include="Views\Rooms\deleteRooms.cshtml" />
     <Content Include="Views\Rooms\delete.cshtml" />
   </ItemGroup>
@@ -204,7 +203,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>50360</DevelopmentServerPort>
+          <DevelopmentServerPort>50361</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
