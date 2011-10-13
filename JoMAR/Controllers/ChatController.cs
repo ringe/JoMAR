@@ -59,6 +59,15 @@ namespace JoMAR.Controllers
 
             model.MessageBoard = room.ChatMessages.ToArray();
 
+
+            model.Users = (from user in db.aspnet_Users
+                           join m2m in db.UserRooms on user.UserId equals m2m.UserID
+                           where m2m.RoomID == room.RoomID
+                           select user).ToList();
+
+            if (!model.Users.Contains(room.aspnet_User))
+                model.Users.Add(room.aspnet_User);
+
             return View(model);
         }
 
