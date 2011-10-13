@@ -20,8 +20,6 @@ namespace JoMAR.Controllers
             return View();
         }
 
-       
-
         public ActionResult PublicRooms()
         {
             JodADataContext db = new JodADataContext();
@@ -39,6 +37,29 @@ namespace JoMAR.Controllers
                                  select p).First(); 
 
                 return View(room);
+        }
+
+        [HttpPost]
+        public ActionResult edit(ChatRoom model, string returnUrl)
+        {
+            JodADataContext db = new JodADataContext();
+
+
+            if (ModelState.IsValid)
+            {
+                model.UserID = (from p in db.aspnet_Users
+                                where p.UserName == User.Identity.Name
+                                select p).First().UserId;
+                db.ChatRooms.InsertOnSubmit(model);
+               
+                
+                model.RoomID = Guid.NewGuid();
+                
+                db.SubmitChanges();
+
+                return Redirect("/Chat/" + model.Name);
+            }
+            return View(model);
         }
 
         public ActionResult create()
