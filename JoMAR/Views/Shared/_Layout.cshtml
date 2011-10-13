@@ -22,8 +22,8 @@
                     <li>@Html.ActionLink("Create rooms", "create", "Rooms")</li>
                     <li>@Html.ActionLink("Public Rooms", "PublicRooms", "Rooms")</li>
                     @if(Request.IsAuthenticated) {
-                    <li>@Html.ActionLink("My Rooms", "My", "Rooms")</li>
-                    <li>@Html.ActionLink("Profile", "Profile", "User")</li>
+                    <li>@Html.ActionLink("My Rooms", "MyRooms", "Rooms")</li>
+                    <li>@Html.ActionLink("Profile", "Profile", "Rooms")</li>
                     }
                     <li>@Html.ActionLink("About", "About", "Rooms")</li>
                 </ul>

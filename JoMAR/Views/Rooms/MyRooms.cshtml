@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JoMAR.ChatRoom>
+
+@{
+    ViewBag.Title = "MyRooms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>My Rooms</h2>
+<table>
+    <tr>
+        <th>
+            Chatroom
+        </th>
+        <th>
+            isPublic
+        </th>
+        <th>
+            isPrivate
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    if (item.aspnet_User.UserName.Equals(User.Identity.Name))
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isPublic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isPrivate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "edit", new { id = item.RoomID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.RoomID })
+        </td>
+    </tr>
+    }
+}
+</table>
+
+
