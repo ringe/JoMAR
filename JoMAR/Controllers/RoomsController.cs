@@ -41,7 +41,7 @@ namespace JoMAR.Controllers
           
                 JodADataContext db = new JodADataContext();
                 ChatRoom room = (from p in db.ChatRooms
-                                 where p.RoomID == Convert.ToInt32(Url.RequestContext.RouteData.Values.Last().Value)
+                                 where p.RoomID.ToString() == Url.RequestContext.RouteData.Values.Last().Value
                                  select p).First(); 
 
                 return View(room);
@@ -67,10 +67,11 @@ namespace JoMAR.Controllers
             {
                 model.UserID = new Guid("bf20231b-bc70-49d9-a19a-11a3afbeda59");
                 db.ChatRooms.InsertOnSubmit(model);
+                model.RoomID = Guid.NewGuid();
 
                 db.SubmitChanges();
 
-                return RedirectToRoute(new { controller = "Chat", id = model.Name });
+                return Redirect("/Chat/" + model.Name);
             }
             return View(model);
         }
