@@ -65,7 +65,9 @@ namespace JoMAR.Controllers
 
             if (ModelState.IsValid)
             {
-                model.UserID = new Guid("bf20231b-bc70-49d9-a19a-11a3afbeda59");
+                model.UserID = (from p in db.aspnet_Users
+                                where p.UserName == User.Identity.Name
+                                select p).First().UserId;
                 db.ChatRooms.InsertOnSubmit(model);
                 model.RoomID = Guid.NewGuid();
 
