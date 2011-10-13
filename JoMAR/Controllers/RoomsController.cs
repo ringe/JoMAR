@@ -42,7 +42,7 @@ namespace JoMAR.Controllers
                 JodADataContext db = new JodADataContext();
                 ChatRoom room = (from p in db.ChatRooms
                                  where p.Name == Url.RequestContext.RouteData.Values.Last().Value
-                                 select p).First();
+                                 select p).First(); 
 
                 return View(room);
         }
