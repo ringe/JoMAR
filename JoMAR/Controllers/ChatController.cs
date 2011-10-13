@@ -33,5 +33,32 @@ namespace JoMAR.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult Index(Models.ChatModel model, string returnUrl)
+        {
+            JodADataContext db = new JodADataContext();
+            ChatRoom room = (from p in db.ChatRooms
+                             where p.Name == model.Name
+                             select p).First();
+            ChatMessage message = model.Message;
+
+            // Prepare message for submit
+            message.MessageID = Guid.NewGuid();
+            message.UserID = (from p in db.aspnet_Users
+                                where p.UserName == User.Identity.Name
+                                select p).First().UserId;
+            message.Text = model.Message.Text;
+
+            // Submit message to DB
+            db.ChatMessages.InsertOnSubmit(model.Message);
+            db.SubmitChanges();
+
+            room.ChatMessages.Add(message);
+
+            model.MessageBoard = room.ChatMessages.ToArray();
+
+            return View(model);
+        }
+
     }
 }
