@@ -83,6 +83,22 @@ namespace JoMAR.Controllers
             JodADataContext db = new JodADataContext();
             var rooms = db.ChatRooms.ToList();
 
+            //List<SelectList> users = new List<SelectList>();
+
+            /*foreach (SelectList user in (from p in db.aspnet_Users
+                                        select p.UserName))
+            {
+                users.Add(user);
+            }*/
+
+           /* var users = (from p in db.aspnet_Users
+                         select p).First().UserName;
+            */
+            
+
+            SelectList users = new SelectList(db.aspnet_Users.First().UserName, "Users");
+            ViewData["users"] = users;
+
             return View(rooms);
         }
     }

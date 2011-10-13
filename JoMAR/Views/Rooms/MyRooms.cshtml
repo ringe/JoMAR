@@ -21,7 +21,7 @@
 
 @foreach (var item in Model)
 {
-    if (item.aspnet_User.UserName.Equals(User.Identity.Name))
+    if (item.aspnet_User.UserName.Equals(User.Identity.Name) || item.aspnet_User.LoweredUserName.Equals(User.Identity.Name))
     {
     <tr>
         <td>
@@ -36,10 +36,13 @@
         <td>
             @Html.ActionLink("Edit", "edit", new { id = item.RoomID }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.RoomID })
+            @Html.DropDownList("Name", ViewData["users"] as SelectList)
         </td>
     </tr>
     }
 }
 </table>
+
+
 
 
