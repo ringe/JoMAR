@@ -1,0 +1,38 @@
+﻿@model JoMAR.ChatRoom
+
+@{
+    ViewBag.Title = "delete";
+}
+
+<h2>delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>ChatRoom</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">isPublic</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.isPublic)
+    </div>
+
+    <div class="display-label">isPrivate</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.isPrivate)
+    </div>
+
+    <div class="display-label">UserID</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserID)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

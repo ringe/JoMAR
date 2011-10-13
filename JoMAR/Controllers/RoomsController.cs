@@ -88,6 +88,67 @@ namespace JoMAR.Controllers
             return View(model);
         }
 
+        public ActionResult delete(Guid id)
+        {
+
+            JodADataContext db = new JodADataContext();
+            ChatRoom room = (from p in db.ChatRooms
+                             where p.RoomID.ToString() == Url.RequestContext.RouteData.Values.Last().Value
+                             select p).First();
+
+            return View(room);
+        }
+
+        [HttpPost]
+        public ActionResult delete(Guid id, FormCollection collection)
+        {
+            JodADataContext db = new JodADataContext();
+            ChatRoom deleteChat = (from p in db.ChatRooms
+                                 where p.RoomID == id
+                                 select p).First();
+
+            if (ModelState.IsValid)
+            {
+                
+                db.ChatRooms.DeleteOnSubmit(deleteChat);
+                db.SubmitChanges();
+
+                return Redirect("/");
+            }
+            return View(deleteChat);
+        }
+
+       /* public ActionResult delete()
+        {
+            JodADataContext db = new JodADataContext();
+
+            var rooms = new ChatRoom();
+
+
+            return View(rooms);
+        }
+
+        [HttpPost]
+        public ActionResult delete(ChatRoom model, string returnUrl)
+        {
+            JodADataContext db = new JodADataContext();
+
+
+            if (ModelState.IsValid)
+            {
+                model.UserID = (from p in db.aspnet_Users
+                                where p.UserName == User.Identity.Name
+                                select p).First().UserId;
+                db.ChatRooms.DeleteOnSubmit(model);
+                model.RoomID = Guid.NewGuid();
+
+                db.SubmitChanges();
+
+                return Redirect("/");
+            }
+            return View(model);
+        }*/
+
         public ActionResult MyRooms()
         {
             JodADataContext db = new JodADataContext();

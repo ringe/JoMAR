@@ -35,7 +35,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "edit", new { id = item.RoomID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.RoomID })
+            @Html.ActionLink("Delete", "delete", new { id = item.RoomID })
             @Html.DropDownList("Name", ViewData["users"] as SelectList)
         </td>
     </tr>
