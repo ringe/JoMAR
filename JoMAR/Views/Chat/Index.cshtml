@@ -14,7 +14,7 @@
 
         <div class="display-label">MessageBoard</div>
         <div class="display-field">
-            @Html.TextArea("Messages", Model.Messages());
+            @Html.TextArea("Messages", Model.Messages(), new { @class = "messageBoard" })
         </div>
         <div class="display-label">Users</div>
     <div class="display-field">
@@ -35,7 +35,7 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Publish message" />
         </p>
     </fieldset>
 }

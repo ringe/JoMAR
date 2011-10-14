@@ -1,0 +1,23 @@
+﻿@model JoMAR.aspnet_User
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Profile</h2>
+
+<fieldset>
+    <legend>@Model.UserName 's Profile</legend>
+
+
+    <div class="display-label">UserName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserName)
+    </div>
+
+    <div class="display-label">LastActivityDate</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastActivityDate)
+    </div>
+</fieldset>
