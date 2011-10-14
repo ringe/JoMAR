@@ -24,7 +24,7 @@ namespace JoMAR
             routes.MapRoute(
                 "Chat",
                 "Chat/{name}",
-                new { controller = "Chat", action = "Index", id = UrlParameter.Optional }
+                new { controller = "Chat", action = "Index", name = UrlParameter.Optional, id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

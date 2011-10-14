@@ -5,31 +5,49 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Linq;
 
 namespace JoMAR.Models
 {
     public class ChatModel
     {
-        public string Messages() {
-            string messages ="";
-            foreach (var message in MessageBoard) {
-                messages += message.Date + " " + message.aspnet_User.UserName + " said: " + message.Text + "\n";
-            }
-            return messages;
+        public ChatModel(ChatRoom room, JodADataContext db)
+        {
+            MessageBoard = room.ChatMessages.ToArray();
+
+            Users = (from user in db.aspnet_Users
+                           join m2m in db.UserRooms on user.UserId equals m2m.UserID
+                           where m2m.RoomID == room.RoomID
+                           select user).ToList();
+
+            if (!Users.Contains(room.aspnet_User))
+                Users.Add(room.aspnet_User);
+
+            Name = room.Name;
+            RoomID = room.RoomID;
         }
 
-        [Required]
+        public string Messages() {
+            List<string> messages = new List<string>();
+            int i = 0;
+            foreach (var message in MessageBoard) {
+                messages.Add(message.Date + " " + message.aspnet_User.UserName + " said: " + message.Text + "\n");
+                i++;
+            }
+            messages.Sort();
+            return string.Join("", messages.ToArray());
+        }
+
+        public Guid RoomID;
+
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Required]
         [Display(Name = "MessageBoard")]
         public ChatMessage[] MessageBoard { get; set; }
 
-        [Required]
         [Display(Name = "Users")]
         public List<aspnet_User> Users { get; set; }
-        //public aspnet_User[] Users { get; set; }
 
         [Display(Name = "Message")]
         public string Message { get; set; }

@@ -19,29 +19,38 @@ namespace JoMAR.Controllers
                        where p.Name == name
                        select p).First();
 
-            var model = new JoMAR.Models.ChatModel();
-            model.MessageBoard = room.ChatMessages.ToArray();
+            var model = new JoMAR.Models.ChatModel(room, db);
+            ViewBag.Title = model.Name;
 
+            aspnet_User user = (from p in db.aspnet_Users
+                                        where p.UserName == User.Identity.Name
+                                        select p).First();
 
-            model.Users = (from user in db.aspnet_Users
-                                              join m2m in db.UserRooms on user.UserId equals m2m.UserID
-                                              where m2m.RoomID == room.RoomID
-                                              select user).ToList();
+            // Public eller medlem?
+            if (!model.Users.Contains(user) && room.isPrivate)
+                return Redirect("/");
+            
+            if (!model.Users.Contains(user))
+            {
+                UserRoom r = new UserRoom();
+                r.UserID = user.UserId;
+                r.RoomID = room.RoomID;
+                db.UserRooms.InsertOnSubmit(r);
+                db.SubmitChanges();
+                model = new JoMAR.Models.ChatModel(room, db);
+            }
 
-            if (!model.Users.Contains(room.aspnet_User))
-                model.Users.Add(room.aspnet_User);
-
-            ViewBag.Title = model.Name = name;
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Index(Models.ChatModel model, string returnUrl)
+        public ActionResult Index(string name, string id, FormCollection collection)
         {
             JodADataContext db = new JodADataContext();
             ChatRoom room = (from p in db.ChatRooms
-                             where p.Name == model.Name
+                             where p.Name == name
                              select p).First();
+
 
             // Prepare message for submit
             ChatMessage message = new ChatMessage();
@@ -51,22 +60,14 @@ namespace JoMAR.Controllers
                                 where p.UserName == User.Identity.Name
                                 select p).First().UserId;
             message.RoomID = room.RoomID;
-            message.Text = model.Message;
+            message.Text = collection["Message"];
+
 
             // Submit message to DB
             db.ChatMessages.InsertOnSubmit(message);
             db.SubmitChanges();
 
-            model.MessageBoard = room.ChatMessages.ToArray();
-
-
-            model.Users = (from user in db.aspnet_Users
-                           join m2m in db.UserRooms on user.UserId equals m2m.UserID
-                           where m2m.RoomID == room.RoomID
-                           select user).ToList();
-
-            if (!model.Users.Contains(room.aspnet_User))
-                model.Users.Add(room.aspnet_User);
+            var model = new JoMAR.Models.ChatModel(room, db);
 
             return View(model);
         }
