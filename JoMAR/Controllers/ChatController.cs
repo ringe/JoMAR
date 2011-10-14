@@ -72,5 +72,15 @@ namespace JoMAR.Controllers
             return View(model);
         }
 
+        public ActionResult Profile()
+        {
+            JodADataContext db = new JodADataContext();
+            var users = (from p in db.aspnet_Users
+                         where p.UserName == User.Identity.Name
+                         select p).First();
+
+            return View(users);
+        }
+
     }
 }
