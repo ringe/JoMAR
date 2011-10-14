@@ -6,14 +6,9 @@
 
 <h2>delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to delete this room and ALL messages?</h3>
 <fieldset>
-    <legend>ChatRoom</legend>
-
-    <div class="display-label">Name</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
+    <legend>@Html.DisplayFor(model => model.Name)</legend>
 
     <div class="display-label">isPublic</div>
     <div class="display-field">
@@ -23,11 +18,6 @@
     <div class="display-label">isPrivate</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.isPrivate)
-    </div>
-
-    <div class="display-label">UserID</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.UserID)
     </div>
 </fieldset>
 @using (Html.BeginForm()) {

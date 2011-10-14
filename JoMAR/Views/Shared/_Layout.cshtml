@@ -28,6 +28,12 @@
             </nav>
         </header>
         <section id="main">
+            @if (Session["jomarmessage"] != "") {
+            <div id="jomarmessage">
+                <h1>@Session["jomarmessage"]</h1>
+                @{ Session["jomarmessage"] = ""; }
+            </div>
+            }
             @RenderBody()
         </section>
         <footer>
