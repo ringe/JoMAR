@@ -57,6 +57,13 @@ namespace JoMAR.Controllers
                                  where p.RoomID == id
                                  select p).First();
 
+            aspnet_User user = (from p in db.aspnet_Users
+                                where p.UserName == User.Identity.Name
+                                select p).First();
+            if (editChat.aspnet_User != user)
+                return Redirect("/");
+
+            Session["jomarmessage"] = "mfg";
             if (ModelState.IsValid)
             {
                 UpdateModel(editChat);
@@ -117,9 +124,16 @@ namespace JoMAR.Controllers
                                  where p.RoomID == id
                                  select p).First();
 
+            aspnet_User user = (from p in db.aspnet_Users
+                                        where p.UserName == User.Identity.Name
+                                        select p).First();
+            if (deleteChat.aspnet_User != user)
+                return Redirect("/");
+
             if (ModelState.IsValid)
             {
-                
+                db.UserRooms.DeleteAllOnSubmit(deleteChat.UserRooms);
+                db.ChatMessages.DeleteAllOnSubmit(deleteChat.ChatMessages);
                 db.ChatRooms.DeleteOnSubmit(deleteChat);
                 db.SubmitChanges();
 

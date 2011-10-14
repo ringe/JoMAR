@@ -17,8 +17,7 @@
             @Html.LabelFor(model => model.Name)
         </div>
         <div class="editor-field">
-            @User.Identity.Name
-
+            @Html.EditorFor(model => model.Name)
             @Html.ValidationMessageFor(model => User.Identity.Name)
         </div>
 

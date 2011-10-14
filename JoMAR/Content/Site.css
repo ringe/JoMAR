@@ -233,6 +233,19 @@ table th {
     border: solid 1px #e8eef4;
 }
 
+/* JOMAR  
+----------------------------------------------------------*/
+#jomarmessage {
+    text-align: center;
+    border: 1px solid white;
+    padding: 0 1em 1em 1em;
+    background-color: Navy;
+}
+
+#jomarmessage h1 {
+    color: White;
+}
+
 /* MISC  
 ----------------------------------------------------------*/
 .clear {
