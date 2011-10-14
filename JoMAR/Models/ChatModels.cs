@@ -9,6 +9,27 @@ using System.Linq;
 
 namespace JoMAR.Models
 {
+    public class MyRoom
+    {
+        public MyRoom(aspnet_User user, JodADataContext db)
+        {
+            Users = db.aspnet_Users.Select(x => new SelectListItem
+            {
+                Text = x.UserName,
+                Value = x.UserId.ToString()
+            }).ToList();
+
+            MyRooms = user.ChatRooms;
+        }
+
+        [Display(Name = "My Rooms")]
+        public IEnumerable<ChatRoom> MyRooms { get; set; }
+
+        [Display(Name = "Users")]
+        public IEnumerable<SelectListItem> Users { get; set; }
+        public string SelectedValue { get; set; }
+    }
+
     public class ChatModel
     {
         public ChatModel(ChatRoom room, JodADataContext db)

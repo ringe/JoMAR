@@ -176,6 +176,7 @@
     <Content Include="Views\Rooms\delete.cshtml" />
     <Content Include="Views\Rooms\eProfile.cshtml" />
     <Content Include="Views\Rooms\profile.cshtml" />
+    <Content Include="Views\Rooms\ViewPage1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -61,9 +61,11 @@ namespace JoMAR.Controllers
                                 where p.UserName == User.Identity.Name
                                 select p).First();
             if (editChat.aspnet_User != user)
+            {
+                Session["jomarmessage"] = "You can't edit a room you don't own.";
                 return Redirect("/");
+            }
 
-            Session["jomarmessage"] = "mfg";
             if (ModelState.IsValid)
             {
                 UpdateModel(editChat);
@@ -128,7 +130,10 @@ namespace JoMAR.Controllers
                                         where p.UserName == User.Identity.Name
                                         select p).First();
             if (deleteChat.aspnet_User != user)
+            {
+                Session["jomarmessage"] = "You can't delete a room you don't own.";
                 return Redirect("/");
+            }
 
             if (ModelState.IsValid)
             {
@@ -145,25 +150,19 @@ namespace JoMAR.Controllers
         public ActionResult MyRooms()
         {
             JodADataContext db = new JodADataContext();
-            var rooms = db.ChatRooms.ToList();
+            aspnet_User user = (from p in db.aspnet_Users
+                                where p.UserName == User.Identity.Name
+                                select p).First();
 
-            //List<SelectList> users = new List<SelectList>();
+            Models.MyRoom model = new Models.MyRoom(user, db);
 
-            /*foreach (SelectList user in (from p in db.aspnet_Users
-                                        select p.UserName))
-            {
-                users.Add(user);
-            }*/
+            return View(model);
+        }
 
-           /* var users = (from p in db.aspnet_Users
-                         select p).First().UserName;
-            */
-            
-
-            SelectList users = new SelectList(db.aspnet_Users.First().UserName, "Users");
-            ViewData["users"] = users;
-
-            return View(rooms);
+        [HttpPost]
+        public ActionResult MyRooms(Guid id, FormCollection collection)
+        {
+            return View();
         }
     }
 }

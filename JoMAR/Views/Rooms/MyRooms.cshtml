@@ -1,7 +1,7 @@
-﻿@model IEnumerable<JoMAR.ChatRoom>
+﻿@model JoMAR.Models.MyRoom
 
 @{
-    ViewBag.Title = "MyRooms";
+    ViewBag.Title = "My Rooms";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>My Rooms</h2>
@@ -19,9 +19,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model)
+@foreach (JoMAR.ChatRoom item in Model.MyRooms)
 {
-    if (item.aspnet_User.UserName.Equals(User.Identity.Name) || item.aspnet_User.LoweredUserName.Equals(User.Identity.Name))
     {
     <tr>
         <td>
@@ -36,8 +35,12 @@
         <td>
             @Html.ActionLink("Edit", "edit", new { id = item.RoomID }) |
             @Html.ActionLink("Delete", "delete", new { id = item.RoomID }) |
-            @Html.ActionLink("Enter", "", "Chat/" + item.Name)
-            @Html.DropDownList("Name", ViewData["users"] as SelectList)
+            @Html.ActionLink("Enter room", "", "Chat/" + item.Name)
+            @using (Html.BeginForm()) {
+                @Html.ValidationSummary(true)
+                @Html.DropDownListFor(x => x.SelectedValue, Model.Users)
+                <input type="submit" value="Add member" />
+            }
         </td>
     </tr>
     }
