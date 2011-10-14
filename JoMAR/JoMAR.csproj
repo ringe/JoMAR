@@ -174,9 +174,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Rooms\deleteRooms.cshtml" />
     <Content Include="Views\Rooms\delete.cshtml" />
-    <Content Include="Views\Rooms\eProfile.cshtml" />
     <Content Include="Views\Rooms\profile.cshtml" />
     <Content Include="Views\Rooms\ViewPage1.cshtml" />
+    <Content Include="Views\Chat\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -28,15 +28,6 @@ namespace JoMAR.Controllers
             return View(rooms);
         }
 
-        public ActionResult profile()
-        {
-            JodADataContext db = new JodADataContext();
-            var users = (from p in db.aspnet_Users
-                         where p.UserName == User.Identity.Name
-                         select p).First();
-
-            return View(users);
-        }
 
         public ActionResult edit(Guid id)
         {
