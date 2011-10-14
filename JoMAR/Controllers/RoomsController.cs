@@ -28,6 +28,16 @@ namespace JoMAR.Controllers
             return View(rooms);
         }
 
+        public ActionResult profile()
+        {
+            JodADataContext db = new JodADataContext();
+            var users = (from p in db.aspnet_Users
+                         where p.UserName == User.Identity.Name
+                         select p).First();
+
+            return View(users);
+        }
+
         public ActionResult edit(Guid id)
         {
 
@@ -117,37 +127,6 @@ namespace JoMAR.Controllers
             }
             return View(deleteChat);
         }
-
-       /* public ActionResult delete()
-        {
-            JodADataContext db = new JodADataContext();
-
-            var rooms = new ChatRoom();
-
-
-            return View(rooms);
-        }
-
-        [HttpPost]
-        public ActionResult delete(ChatRoom model, string returnUrl)
-        {
-            JodADataContext db = new JodADataContext();
-
-
-            if (ModelState.IsValid)
-            {
-                model.UserID = (from p in db.aspnet_Users
-                                where p.UserName == User.Identity.Name
-                                select p).First().UserId;
-                db.ChatRooms.DeleteOnSubmit(model);
-                model.RoomID = Guid.NewGuid();
-
-                db.SubmitChanges();
-
-                return Redirect("/");
-            }
-            return View(model);
-        }*/
 
         public ActionResult MyRooms()
         {
