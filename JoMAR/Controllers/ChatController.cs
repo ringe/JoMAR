@@ -14,6 +14,12 @@ namespace JoMAR.Controllers
 
         public ActionResult Index(string name)
         {
+            if (!Request.IsAuthenticated)
+            {
+                Session["jomarmessage"] = "Log in to chat!";
+                return Redirect("/Rooms/Public");
+            }
+
             JodADataContext db = new JodADataContext();
             ChatRoom room = (from p in db.ChatRooms
                        where p.Name == name
@@ -28,8 +34,11 @@ namespace JoMAR.Controllers
 
             // Public eller medlem?
             if (!model.Users.Contains(user) && room.isPrivate)
-                return Redirect("/");
-            
+            {
+                Session["jomarmessage"] = "The room you tried to access is private, members only!";
+                return Redirect("/Rooms");
+            }
+
             if (!model.Users.Contains(user))
             {
                 UserRoom r = new UserRoom();

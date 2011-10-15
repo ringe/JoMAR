@@ -37,6 +37,7 @@
             @Html.ActionLink("Delete", "delete", new { id = item.RoomID }) |
             @Html.ActionLink("Enter room", "", "Chat/" + item.Name)
             @using (Html.BeginForm()) {
+                @Html.HiddenFor(model => item.RoomID)
                 @Html.ValidationSummary(true)
                 @Html.DropDownListFor(x => x.SelectedValue, Model.Users)
                 <input type="submit" value="Add member" />

@@ -169,8 +169,8 @@
     <Content Include="Views\Rooms\createRooms.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Rooms\editRooms.cshtml" />
-    <Content Include="Views\Rooms\PublicRooms.cshtml" />
-    <Content Include="Views\Rooms\MyRooms.cshtml" />
+    <Content Include="Views\Rooms\Public.cshtml" />
+    <Content Include="Views\Rooms\Private.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Rooms\deleteRooms.cshtml" />
     <Content Include="Views\Rooms\delete.cshtml" />

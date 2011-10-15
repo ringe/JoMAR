@@ -11,20 +11,24 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>ChatModel</legend>
+        <div class="display-label right-float"></div>
+        <div class="display-field right-float">
+            <h2>Users</h2>
+            <ul>
+                @foreach (var user in Model.Users)
+                {
+                <li>@user.UserName</li>
+                }
+            </ul>
+        </div>
 
         <div class="display-label">MessageBoard</div>
         <div class="display-field">
-            @Html.TextArea("Messages", Model.Messages(), new { @class = "messageBoard" })
+            @Html.TextArea("Messages", Model.Messages(), new { @class = "messageBoard"})
+            <script type="text/javascript">
+                Messages.scrollTop = Messages.scrollHeight;
+            </script>
         </div>
-        <div class="display-label">Users</div>
-    <div class="display-field">
-        <ul>
-            @foreach (var user in Model.Users)
-            {
-            <li>@user.UserName</li>
-            }
-        </ul>
-    </div>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Message)

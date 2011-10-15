@@ -246,6 +246,10 @@ table th {
     color: White;
 }
 
+.right-float  {
+    float: right;
+}
+
 /* MISC  
 ----------------------------------------------------------*/
 .clear {
