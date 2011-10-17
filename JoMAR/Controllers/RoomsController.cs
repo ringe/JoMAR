@@ -212,11 +212,17 @@ namespace JoMAR.Controllers
                 return Redirect("/Rooms/Private");
             }
 
-            UserRoom ur = new UserRoom();
-            ur.RoomID = room.RoomID;
-            ur.UserID = newMember.UserId;
-            db.UserRooms.InsertOnSubmit(ur);
-            db.SubmitChanges();
+            List<Guid> mmm = new List<Guid>();
+            foreach (var s in room.UserRooms)
+                mmm.Add(s.UserID);
+            
+            if (!mmm.Contains(newMember.UserId)) {
+                UserRoom ur = new UserRoom();
+                ur.RoomID = room.RoomID;
+                ur.UserID = newMember.UserId;
+                db.UserRooms.InsertOnSubmit(ur);
+                db.SubmitChanges();
+            }
 
             Models.MyRoom model = new Models.MyRoom(user, db);
             return View(model);
