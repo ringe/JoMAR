@@ -196,11 +196,14 @@ namespace JoMAR.Controllers
             }
 
             JodADataContext db = new JodADataContext();
-            aspnet_User user = (from p in db.aspnet_Users
+            aspnet_User newMember = (from p in db.aspnet_Users
                                 where p.UserId.ToString() == collection["SelectedValue"]
                                 select p).First();
             ChatRoom room = (from p in db.ChatRooms
                                 where p.RoomID.ToString() == collection["item.RoomID"]
+                                select p).First();
+            aspnet_User user = (from p in db.aspnet_Users
+                                where p.UserName == User.Identity.Name
                                 select p).First();
 
             if (room.UserID != user.UserId)
@@ -211,12 +214,12 @@ namespace JoMAR.Controllers
 
             UserRoom ur = new UserRoom();
             ur.RoomID = room.RoomID;
-            ur.UserID = user.UserId;
+            ur.UserID = newMember.UserId;
             db.UserRooms.InsertOnSubmit(ur);
             db.SubmitChanges();
 
             Models.MyRoom model = new Models.MyRoom(user, db);
-            return View();
+            return View(model);
         }
     }
 }

@@ -21,16 +21,59 @@ namespace JoMAR.Controllers
             }
 
             JodADataContext db = new JodADataContext();
-            ChatRoom room = (from p in db.ChatRooms
-                       where p.Name == name
-                       select p).First();
+            aspnet_User user = (from p in db.aspnet_Users
+                                where p.UserName == User.Identity.Name
+                                select p).First();
+
+            aspnet_User[] privUser = (from p in db.aspnet_Users
+                                      where p.UserName == name
+                                      select p).ToArray();
+
+            List<ChatRoom> rooms;
+            if (privUser.Length != 0)
+            {
+                rooms = (from r in db.ChatRooms
+                                    where (r.Name == (User.Identity.Name + name) || r.Name == (name + User.Identity.Name) ) && r.isPrivate && !r.isPublic && r.UserRooms.Count == 2
+                                    select r).ToList();
+                ChatRoom newr = new ChatRoom();
+                newr.UserID = user.UserId;
+                newr.RoomID = Guid.NewGuid();
+                newr.isPrivate = true;
+                newr.Name = (User.Identity.Name + name);
+                db.ChatRooms.InsertOnSubmit(newr);
+
+                UserRoom nr = new UserRoom();
+                nr.UserID = user.UserId;
+                nr.RoomID = newr.RoomID;
+
+                UserRoom nr2 = new UserRoom();
+                nr2.UserID = privUser.First().UserId;
+                nr2.RoomID = newr.RoomID;
+
+                db.UserRooms.InsertOnSubmit(nr);
+                db.UserRooms.InsertOnSubmit(nr2);
+                db.SubmitChanges();
+
+                rooms.Add(newr);
+
+            } else {
+                rooms = (from p in db.ChatRooms
+                                 where p.Name == name
+                                 select p).ToList();
+            }
+
+            // Public eller medlem?
+            if (rooms.Count == 0)
+            {
+                Session["jomarmessage"] = "No room found by that name!";
+                return Redirect("/Rooms");
+            }
+
+            // Return the first room found
+            ChatRoom room = rooms[0];
 
             var model = new JoMAR.Models.ChatModel(room, db);
             ViewBag.Title = model.Name;
-
-            aspnet_User user = (from p in db.aspnet_Users
-                                        where p.UserName == User.Identity.Name
-                                        select p).First();
 
             // Public eller medlem?
             if (!model.Users.Contains(user) && room.isPrivate)
@@ -56,9 +99,38 @@ namespace JoMAR.Controllers
         public ActionResult Index(string name, string id, FormCollection collection)
         {
             JodADataContext db = new JodADataContext();
-            ChatRoom room = (from p in db.ChatRooms
-                             where p.Name == name
-                             select p).First();
+            aspnet_User user = (from p in db.aspnet_Users
+                                where p.UserName == User.Identity.Name
+                                select p).First();
+
+            aspnet_User[] privUser = (from p in db.aspnet_Users
+                                      where p.UserName == name
+                                      select p).ToArray();
+
+            List<ChatRoom> rooms;
+            if (privUser.Length != 0)
+            {
+                rooms = (from r in db.ChatRooms
+                         where (r.Name == (User.Identity.Name + name) || r.Name == (name + User.Identity.Name)) && r.isPrivate && !r.isPublic && r.UserRooms.Count == 2
+                         select r).ToList();
+            }
+            else
+            {
+                rooms = (from p in db.ChatRooms
+                         where p.Name == name
+                         select p).ToList();
+            }
+
+            if (rooms.Count == 0)
+            {
+                Session["jomarmessage"] = "No room found by that name!";
+                return Redirect("/Rooms");
+            }
+
+            
+
+            // Return the first room found
+            ChatRoom room = rooms[0];
 
 
             // Prepare message for submit

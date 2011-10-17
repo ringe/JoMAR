@@ -19,11 +19,21 @@ namespace JoMAR.Models
                 Value = x.UserId.ToString()
             }).ToList();
 
+            Memberships = (from room in db.ChatRooms
+                     join m2m in db.UserRooms on room.RoomID equals m2m.RoomID
+                     where m2m.UserID == user.UserId
+                     select room).ToList();
+
             MyRooms = user.ChatRooms;
+            foreach (ChatRoom room in MyRooms)
+                Memberships.Remove(room);
         }
 
         [Display(Name = "My Rooms")]
         public IEnumerable<ChatRoom> MyRooms { get; set; }
+
+        [Display(Name = "Memberships")]
+        public List<ChatRoom> Memberships { get; set; }
 
         [Display(Name = "Users")]
         public IEnumerable<SelectListItem> Users { get; set; }
