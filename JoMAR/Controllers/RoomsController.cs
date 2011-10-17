@@ -203,7 +203,7 @@ namespace JoMAR.Controllers
                                 where p.RoomID.ToString() == collection["item.RoomID"]
                                 select p).First();
 
-            if (room.aspnet_User != user)
+            if (room.UserID != user.UserId)
             {
                 Session["jomarmessage"] = "You can't add users to a room you don't own.";
                 return Redirect("/Rooms/Private");
