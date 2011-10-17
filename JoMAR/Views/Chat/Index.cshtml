@@ -17,7 +17,10 @@
             <ul>
                 @foreach (var user in Model.Users)
                 {
-                <li>@user.UserName</li>
+                             
+                @Html.ActionLink(user.UserName, "", "Chat/" + user.UserName) <br />
+                    
+                
                 }
             </ul>
         </div>
