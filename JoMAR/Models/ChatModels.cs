@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Linq;
+using System.Web;
 
 namespace JoMAR.Models
 {
@@ -67,6 +68,11 @@ namespace JoMAR.Models
             }
             messages.Sort();
             return string.Join("", messages.ToArray());
+        }
+
+        public string UrlName()
+        {
+            return HttpUtility.UrlEncode(Name);
         }
 
         public Guid RoomID;
