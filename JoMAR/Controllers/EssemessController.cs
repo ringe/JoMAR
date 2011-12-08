@@ -16,13 +16,15 @@ namespace JoMAR.Controllers
         //
         // GET: /Essemess/
 
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
-            //ViewBag.mama = SMS.Send("mama speaking", 4797177229, 4741800072);
-            String jsonresult = SMS.Get(4799104626);
+            //SMS.Send("mama speaking", 4797177229, 4741800072);
+            SMS sms = new SMS();
+            //String jsonresult = SMS.Get(4799104626);
 
-            SMS sms = JsonConvert.DeserializeObject<SMS>(jsonresult);
+            //SMS sms = JsonConvert.DeserializeObject<SMS>(jsonresult);
 
+            ViewBag.mama = HttpUtility.UrlEncode(id);
             return View(sms);
         }
 
