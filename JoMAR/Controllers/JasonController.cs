@@ -27,14 +27,14 @@ namespace JoMAR.Controllers
                                  where p.RoomID == id
                                  select p).First();
 
-            ChatMessage[] msg = room.ChatMessages.ToArray();
-
+            ChatMessage[] msg = room.ChatMessages.OrderBy(d => d.Date).ToArray();
+            
             foreach (var message in msg)
             {
                 messages.Add(message.Date + " " + message.aspnet_User.UserName + " said: " + message.Text);
                 i++;
             }
-            messages.Sort();
+            
             return Json(messages.ToArray(), JsonRequestBehavior.AllowGet);
 
         }
@@ -54,6 +54,24 @@ namespace JoMAR.Controllers
             }
 
             return Json(rooms.ToArray(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getUsersOnRoom(Guid id)
+        {
+            JodADataContext db = new JodADataContext();
+            List<string> userList = new List<string>();
+
+            aspnet_User[] users = (from user in db.aspnet_Users
+                                   join m2m in db.UserRooms on user.UserId equals m2m.UserID
+                                   where m2m.RoomID == id
+                                   select user).ToArray();
+            foreach (var r in users)
+            {
+                userList.Add(r.UserName);
+            }
+
+            return Json(userList.ToArray(), JsonRequestBehavior.AllowGet);
+
         }
 
     }
