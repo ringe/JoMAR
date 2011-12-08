@@ -8,9 +8,11 @@ using System.IO;
 
 namespace JoMAR.Models
 {
+    /// <summary>
+    /// The SMS class takes care of handling SMS sending and receiving.
+    /// </summary>
     public class SMS
     {
-        //"id":228,"SND":"4741800072","RCV":"26112","TXT":"heia runar!!????@@@@?????$?????? :-Q","date":"\/Date(1323340897680)\/","status":"received"
         private int id;
         private long snd;
         private long rcv;
@@ -18,14 +20,30 @@ namespace JoMAR.Models
         private DateTime date;
         private string status;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public SMS() {}
 
-        public String gravatar(string email, string alt)
-        {
-            return Gravatar.Image(email, alt);
-        }
+        /// <summary>
+        /// Return the SMS text
+        /// </summary>
+        public String Message { get { return txt; } }
 
-        public int GetId { get { return id; } }
+        /// <summary>
+        /// Return the SMS date
+        /// </summary>
+        public DateTime Date { get { return date; } }
+
+        /// <summary>
+        /// Return the Sender's phone number
+        /// </summary>
+        public long Sender { get { return snd; } }
+
+        /// <summary>
+        /// Return the Receiver's phone number
+        /// </summary>
+        public long Receiver { get { return rcv; } }
 
         /// <summary>
         /// Any logging here?

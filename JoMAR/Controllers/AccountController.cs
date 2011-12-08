@@ -84,6 +84,14 @@ namespace JoMAR.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
+
+                    //add profile information
+                    var profile = Profile.GetProfile(model.UserName);
+                    profile.FirstName = model.FirstName;
+                    profile.LastName = model.LastName;
+                    profile.CellPhone = model.CellPhone;
+                    profile.Save();
+
                     return RedirectToAction("Index", "Rooms");
                 }
                 else

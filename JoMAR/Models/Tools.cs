@@ -8,9 +8,9 @@ using System.Security.Cryptography;
 
 namespace JoMAR.Models
 {
-    public class Gravatar
+    public class Tools
     {
-        public static string Image(string Email, string Alt)
+        public static string Gravatar(string Email, string Alt)
         {
             string imageUrl = "http://www.gravatar.com/avatar/";
 
