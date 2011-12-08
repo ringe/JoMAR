@@ -14,24 +14,18 @@
     <fieldset>
         <legend>ChatModel</legend>
         <div class="display-label right-float"></div>
-        <div class="display-field right-float">
+        <div class="fna right-float">
             <h2>Users</h2>
             <ul>
                 @foreach (var user in Model.Users)
-                {
-                             
-                @Html.ActionLink(user.UserName, "", "Chat/" + user.UserName) <br />
-                    
-                
+                {                            
+                     @Html.ActionLink(user.UserName, "", "Chat/" + user.UserName) <br/>
                 }
             </ul>
         </div>
         <div class="display-label">MessageBoard</div>
-        <div class="display-field">
-        
-            @Html.TextArea("Messages",new { @class = "messageBoard"})
-
-            
+        <div class="display-field">        
+            @Html.TextArea("Messages",new { @class = "messageBoard"}) 
         </div>
 
         <div class="editor-label">
@@ -58,11 +52,10 @@
         });
     }
 
-
     $("form").submit(function () {
         $.ajax({
             type: "POST",
-            url: "/Chat/@Model.Name",
+            url: "/Chat/@Model.UrlName()",
             data: $(this).serialize(),
             success: getPosts()
         });
