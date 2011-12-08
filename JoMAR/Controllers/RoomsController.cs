@@ -39,7 +39,7 @@ namespace JoMAR.Controllers
 
             JodADataContext db = new JodADataContext();
             ChatRoom room = (from p in db.ChatRooms
-                             where p.RoomID.ToString() == Url.RequestContext.RouteData.Values.Last().Value
+                             where p.RoomID.ToString() == (String)Url.RequestContext.RouteData.Values.Last().Value
                              select p).First();
 
             return View(room);
@@ -127,7 +127,7 @@ namespace JoMAR.Controllers
 
             JodADataContext db = new JodADataContext();
             ChatRoom room = (from p in db.ChatRooms
-                             where p.RoomID.ToString() == Url.RequestContext.RouteData.Values.Last().Value
+                             where p.RoomID.ToString() == (String)Url.RequestContext.RouteData.Values.Last().Value
                              select p).First();
 
             return View(room);

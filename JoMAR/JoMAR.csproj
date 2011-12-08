@@ -71,8 +71,9 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
-    <Compile Include="Controllers\EssemessController.cs" />
-    <Compile Include="Controllers\RoomsController.cs" />
+	<Compile Include="Controllers\JasonController.cs" />
+	<Compile Include="Controllers\EssemessController.cs" />
+	<Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
