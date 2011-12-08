@@ -14,17 +14,14 @@
     <fieldset>
         <legend>ChatModel</legend>
         <div class="display-label right-float"></div>
-        <div class="fna right-float">
-            <h2>Users</h2>
+        <div class="display-field right-float">
+            <h4>Users</h4>
             <ul>
-                @foreach (var user in Model.Users)
-                {                            
-                     @Html.ActionLink(user.UserName, "", "Chat/" + user.UserName) <br/>
-                }
+              <select id="lb" style="width:250px" multiple="multiple" size="10"> </select>
             </ul>
         </div>
-        <div class="display-label">MessageBoard</div>
-        <div class="display-field">        
+        <div class="display-label left-float"> MessageBoard</div>
+        <div class="display-field left-float">        
             @Html.TextArea("Messages",new { @class = "messageBoard"}) 
         </div>
 
@@ -43,15 +40,22 @@
 }
 <script type="text/javascript">
     Messages.scrollTop = Messages.scrollHeight;
+   
 
-    window.setInterval(getPosts, 100);
+    window.setInterval(getPosts, 1000);
+    window.setInterval(getUsers, 5000);
+
+    $(document).ready(function () {
+        getUsers()
+        getPosts()
+    });
 
     function getPosts() {
         $.getJSON("/Jason/getMessages/@Model.RoomID", function (result) {
             $("textarea#Messages").val(result.join("\n"));
         });
     }
-
+    $("Messages").clean();
     $("form").submit(function () {
         $.ajax({
             type: "POST",
@@ -61,5 +65,16 @@
         });
         return false;
     });
+
+    function getUsers() {
+        $.getJSON("/Jason/getUsersOnRoom/@Model.RoomID", function (data) {
+            var html = '';
+            var len = data.length;
+            for (var i = 0; i < len; i++) {
+                html += '<option value="' + data[i].toString() + '">' + data[i].toString() + '</option>';
+            }
+            $('#lb').html(html);
+        });
+    }
 
 </script>

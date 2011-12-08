@@ -13,6 +13,7 @@ namespace JoMAR.Models
     {
         private string email;
         private string image;
+        private aspnet_User user;
 
         [Display(Name = "First Name")]
         public virtual string FirstName
@@ -57,7 +58,39 @@ namespace JoMAR.Models
         public virtual string Image { get { return (this.image); } }
 
         [Display(Name = "Email")]
-        public virtual string Email { get { return (this.email); } }
+        public virtual string Email 
+        { 
+            get
+            { 
+                return (this.email); 
+            }
+            set
+            {
+                user.aspnet_Membership.Email = value;
+
+            }
+
+        }
+
+        [Display(Name = "User")]
+        public virtual aspnet_User User
+        {
+            get
+            {
+                return (this.user);
+            }
+            set
+            {
+                this.user = value;
+                image = Tools.Gravatar(user.aspnet_Membership.LoweredEmail, FirstName + " " + LastName);
+                email = user.aspnet_Membership.Email;
+            }
+
+        }
+
+        [Display(Name = "Name")]
+        public virtual string Name { get { return this.FirstName + " " + this.LastName; } }
+
 
         /// <summary>
         /// Get a Profile for the given user
@@ -72,9 +105,8 @@ namespace JoMAR.Models
                                  where p.UserName == username
                                    select p);
             if (users.Count() == 0) return null;
-            aspnet_User user = users.First();
-            me.image = Tools.Gravatar(user.aspnet_Membership.LoweredEmail, me.FirstName + " " + me.LastName);
-            me.email = user.aspnet_Membership.Email;
+            me.User = users.First();
+            
             return me;
         }
     }

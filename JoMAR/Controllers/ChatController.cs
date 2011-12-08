@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using JoMAR.Models;
 
 namespace JoMAR.Controllers
 {
@@ -80,7 +81,7 @@ namespace JoMAR.Controllers
             // Return the first room found
             ChatRoom room = rooms[0];
 
-            var model = new JoMAR.Models.ChatModel(room, db);
+            var model = new ChatModel(room, db);
             ViewBag.Title = model.Name;
 
             // Public eller medlem?
@@ -178,17 +179,45 @@ namespace JoMAR.Controllers
             db.ChatMessages.InsertOnSubmit(message);
             db.SubmitChanges();
 
-            var m = new JoMAR.Models.ChatModel(room, db);
+            var m = new ChatModel(room, db);
             return View(m);
         }
 
         public ActionResult Profile()
         {
+            //JodADataContext db = new JodADataContext();
+            //var user = (from p in db.aspnet_Users
+            //             where p.UserName == User.Identity.Name
+            //             select p).First();
+            JoMAR.Models.Profile user = JoMAR.Models.Profile.GetProfile(User.Identity.Name);
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Profile(FormCollection collection)
+        {
             JodADataContext db = new JodADataContext();
-            var user = (from p in db.aspnet_Users
-                         where p.UserName == User.Identity.Name
-                         select p).First();
-            
+
+            // Prepare message for submit
+            aspnet_User usr = (from p in db.aspnet_Users
+                              where p.UserName == User.Identity.Name
+                              select p).First();
+
+            aspnet_Membership ma = (from m in db.aspnet_Memberships
+                                   where m.UserId == usr.UserId
+                                   select m).First();
+            ma.Email = collection["Email"];
+
+            // Submit message to DB
+            db.SubmitChanges();
+
+            JoMAR.Models.Profile user = JoMAR.Models.Profile.GetProfile(User.Identity.Name);
+
+            user.FirstName = collection["FirstName"];
+            user.LastName = collection["LastName"];
+
+            user.CellPhone = collection["CellPhone"];
+            user.Save();
             return View(user);
         }
 

@@ -1,4 +1,4 @@
-﻿@model JoMAR.aspnet_User
+﻿@model JoMAR.Models.Profile
 
 @{
     ViewBag.Title = "Profile";
@@ -6,18 +6,49 @@
 }
 
 <h2>Profile</h2>
+@using (Html.BeginForm())
+{
+     @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+     <div>
+        <fieldset>
+            <legend>@Model.Name 's Profile</legend>
 
-<fieldset>
-    <legend>@Model.UserName 's Profile</legend>
 
+            <div class="display-label">UserName</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.UserName)
+            </div>
 
-    <div class="display-label">UserName</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.UserName)
-    </div>
+            <div class="editor-label">Firstname</div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.FirstName)
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
 
-    <div class="display-label">LastActivityDate</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.LastActivityDate)
-    </div>
-</fieldset>
+            <div class="editor-label">Lastname</div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.LastName)
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
+
+            <div class="editor-label">E-mail</div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+
+            <div class="editor-label">Cell phone</div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.CellPhone)
+                @Html.ValidationMessageFor(model => model.CellPhone)
+            </div>
+
+            <br>
+            @Html.ActionLink("Klikk her for å bytte passord", "../Account/ChangePassword")
+
+            <p>
+                <input type="submit" value="Edit" />
+            </p>
+        </fieldset>
+     </div>
+}
