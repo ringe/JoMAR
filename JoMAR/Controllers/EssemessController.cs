@@ -20,13 +20,10 @@ namespace JoMAR.Controllers
         {
             //ViewBag.mama = SMS.Send("mama speaking", 4797177229, 4741800072);
             String jsonresult = SMS.Get(4799104626);
-            //JsonSerializer ser = new JsonSerializer();
-            //JsonReader re = new JsonReader();
-            
-            //SMS m;
-            //ser.Deserialize();
-            ViewBag.mama = jsonresult;
-            return View();
+
+            SMS sms = JsonConvert.DeserializeObject<SMS>(jsonresult);
+
+            return View(sms);
         }
 
     }

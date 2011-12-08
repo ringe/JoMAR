@@ -18,8 +18,14 @@ namespace JoMAR.Models
         private DateTime date;
         private string status;
 
-        public SMS()
+        public SMS() {}
+
+        public int GetId
         {
+            get
+            {
+                return id;
+            }
         }
 
         /// <summary>
