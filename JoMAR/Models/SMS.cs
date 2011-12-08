@@ -20,13 +20,12 @@ namespace JoMAR.Models
 
         public SMS() {}
 
-        public int GetId
+        public String gravatar(string email, string alt)
         {
-            get
-            {
-                return id;
-            }
+            return Gravatar.Image(email, alt);
         }
+
+        public int GetId { get { return id; } }
 
         /// <summary>
         /// Any logging here?
