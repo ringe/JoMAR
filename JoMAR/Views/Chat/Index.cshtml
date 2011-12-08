@@ -51,7 +51,7 @@
             $("textarea#Messages").val(result.join("\n"));
         });
     }
-
+    $("Messages").clean();
     $("form").submit(function () {
         $.ajax({
             type: "POST",
