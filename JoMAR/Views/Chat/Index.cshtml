@@ -24,7 +24,6 @@
                 }
             </ul>
         </div>
-        <button type="button">Click Me!</button>
         <div class="display-label">MessageBoard</div>
         <div class="display-field">
         
@@ -33,14 +32,18 @@
             <script type="text/javascript">
                 Messages.scrollTop = Messages.scrollHeight;
 
-                window.setInterval(yourfunction, 500);
+                window.setInterval(getPosts, 100);
 
-                function yourfunction() {
-                    $.getJSON("/Jason/getMessages/@Model.RoomID", function (result) {
-                        
-                            $("textarea#Messages").val(result.join("\n"));
-                        
+                function getPosts() {
+                    $.getJSON("/Jason/getMessages/@Model.RoomID", function (result) {                      
+                            $("textarea#Messages").val(result.join("\n"));   
                     });
+                }
+
+                function publishMessage {
+                      $("#target").submit(function(e){
+                         alert("Submitted");
+                     });
                 }
                                                     
             </script>

@@ -18,24 +18,60 @@ namespace JoMAR.Controllers
 
         public JsonResult getMessages(Guid id)
         {
-            List<dynamic> list = new List<dynamic>();
+
             JodADataContext db = new JodADataContext();
+            List<string> messages = new List<string>();
+            int i = 0;
 
-            dynamic msg = (from p in db.ChatMessages
-                           where p.RoomID == id
-                           select p.Text).ToList();
+            ChatRoom room = (from p in db.ChatRooms
+                                 where p.RoomID == id
+                                 select p).First();
 
-            //foreach (string o in msg)
-            //{
-            //    var myOp = new
-            //    {
-            //        text = o.Text
+            ChatMessage[] msg = room.ChatMessages.ToArray();
 
-            //    };
-            //    list.Add(myOp);
-            //}
-            return Json(msg, JsonRequestBehavior.AllowGet);
+            foreach (var message in msg)
+            {
+                messages.Add(message.Date + " " + message.aspnet_User.UserName + " said: " + message.Text);
+                i++;
+            }
+            messages.Sort();
+            return Json(messages.ToArray(), JsonRequestBehavior.AllowGet);
 
+        }
+
+       /* public JsonResult addMessage(Guid id)
+        {
+            JodADataContext db = new JodADataContext();
+            ChatMessage message = new ChatMessage();
+            message.Date = DateTime.Now;
+            message.MessageID = Guid.NewGuid();
+            message.UserID = (from p in db.aspnet_Users
+                              where p.UserName == User.Identity.Name
+                              select p).First().UserId;
+            message.RoomID = id;
+            //message.Text = collection["Message"];
+
+
+            // Submit message to DB
+            db.ChatMessages.InsertOnSubmit(message);
+            db.SubmitChanges();
+        }*/
+
+        public JsonResult getRooms()
+        {
+            JodADataContext db = new JodADataContext();
+            List<string> rooms = new List<string>();
+
+            ChatRoom[] room = (from p in db.ChatRooms
+                             where p.isPublic
+                             select p).ToArray();
+
+            foreach (var r in room)
+            {
+                rooms.Add("Name: " + r.Name + " Owner: " + r.aspnet_User.UserName);
+            }
+
+            return Json(rooms.ToArray(), JsonRequestBehavior.AllowGet);
         }
 
     }
