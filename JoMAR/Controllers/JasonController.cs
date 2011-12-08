@@ -39,24 +39,6 @@ namespace JoMAR.Controllers
 
         }
 
-       /* public JsonResult addMessage(Guid id)
-        {
-            JodADataContext db = new JodADataContext();
-            ChatMessage message = new ChatMessage();
-            message.Date = DateTime.Now;
-            message.MessageID = Guid.NewGuid();
-            message.UserID = (from p in db.aspnet_Users
-                              where p.UserName == User.Identity.Name
-                              select p).First().UserId;
-            message.RoomID = id;
-            //message.Text = collection["Message"];
-
-
-            // Submit message to DB
-            db.ChatMessages.InsertOnSubmit(message);
-            db.SubmitChanges();
-        }*/
-
         public JsonResult getRooms()
         {
             JodADataContext db = new JodADataContext();
