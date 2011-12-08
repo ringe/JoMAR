@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
@@ -10,6 +11,9 @@ namespace JoMAR.Models
 {
     public class Profile : ProfileBase
     {
+        private string email;
+        private string image;
+
         [Display(Name = "First Name")]
         public virtual string FirstName
         {
@@ -49,9 +53,29 @@ namespace JoMAR.Models
             }
         }
 
+        [Display(Name = "Image")]
+        public virtual string Image { get { return (this.image); } }
+
+        [Display(Name = "Email")]
+        public virtual string Email { get { return (this.email); } }
+
+        /// <summary>
+        /// Get a Profile for the given user
+        /// </summary>
+        /// <param name="username">username</param>
+        /// <returns></returns>
         public static Profile GetProfile(string username)
         {
-            return Create(username) as Profile;
+            Profile me = Create(username) as Profile;
+            JodADataContext db = new JodADataContext();
+            IQueryable<aspnet_User> users = (from p in db.aspnet_Users
+                                 where p.UserName == username
+                                   select p);
+            if (users.Count() == 0) return null;
+            aspnet_User user = users.First();
+            me.image = Tools.Gravatar(user.aspnet_Membership.LoweredEmail, me.FirstName + " " + me.LastName);
+            me.email = user.aspnet_Membership.Email;
+            return me;
         }
     }
 }

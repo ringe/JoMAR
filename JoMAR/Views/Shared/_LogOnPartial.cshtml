@@ -1,4 +1,5 @@
 ﻿@if(Request.IsAuthenticated) {
+    @Html.Raw(@ViewBag.Profile.Image)
     <text>Welcome <strong>@User.Identity.Name</strong>!
     [ @Html.ActionLink("Log Off", "LogOff", "Account") ]</text>
 }

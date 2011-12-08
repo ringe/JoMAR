@@ -11,9 +11,7 @@ namespace JoMAR.Controllers
     {
         public ActionResult Index()
         {
-            var profile = Profile.GetProfile(User.Identity.Name);
-            ViewBag.Message = "HELLO " + profile.FirstName + " " + profile.LastName + "!";
-            //ViewBag.Message = "Welcome to JoMAR's online Chat!";
+            ViewBag.Message = "Welcome to JoMAR's online Chat!";
 
             return View();
         }
