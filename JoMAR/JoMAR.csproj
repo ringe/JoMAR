@@ -88,6 +88,7 @@
     <Compile Include="Models\GlobalModel.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\Rooms.cs" />
+    <Compile Include="Models\Invite.cs" />
     <Compile Include="Models\Tools.cs" />
     <Compile Include="Models\SMS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
