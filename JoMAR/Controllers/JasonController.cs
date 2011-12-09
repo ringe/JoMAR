@@ -23,9 +23,7 @@ namespace JoMAR.Controllers
         {
 
             JodADataContext db = new JodADataContext();
-            List<string> messages = new List<string>();
             List<dynamic> jasons = new List<dynamic>();
-            int i = 0;
 
             ChatRoom room = (from p in db.ChatRooms
                                  where p.RoomID == id
@@ -34,13 +32,7 @@ namespace JoMAR.Controllers
             ChatMessage[] msg = room.ChatMessages.OrderByDescending(d => d.Date).ToArray();
             
             foreach (var message in msg)
-            {
-                string str = message.Date + " " + message.aspnet_User.UserName + " said: " + message.Text;
-                str += "(<a href=\"/uploads/" + message.Image + "\">Click to get file </a>)";
-                messages.Add(str) ;
-                i++;
-
-                var js = new
+            {var js = new
                 {
                     date = message.Date,
                     user = message.aspnet_User.UserName,
@@ -56,25 +48,25 @@ namespace JoMAR.Controllers
 
         public JsonResult getRooms()
         {
-            //Fiks problem seinar
-
-
             JodADataContext db = new JodADataContext();
-            //List<ChatRoom> rooms = new List<ChatRoom>();
+            List<dynamic> rooms = new List<dynamic>();
 
-            ChatRoom[] rooms = (from p in db.ChatRooms
-                        where p.isPublic
-                        select p).ToArray();
+            ChatRoom[] rA = (from p in db.ChatRooms
+                            where p.isPublic
+                            select p).ToArray();
 
-            //foreach (var r in room)
-            //    rooms.Add("Room: " + r.Name + " Owner: " + r.aspnet_User.UserName);
-            Debug.WriteLine(rooms[0].Name);
-            Debug.WriteLine(rooms[0].aspnet_User.UserName);
-            JsonResult m = Json(rooms.ToArray(), JsonRequestBehavior.AllowGet);
+            foreach (var r in rA)
+            {
+                var js = new
+                {
+                    name = r.Name,
+                    owner = r.aspnet_User.UserName,
+                    isPrivate = r.isPrivate
+                };
+                rooms.Add(js);
+            }
 
-            Debug.WriteLine(m.Data);
-
-            return m;
+            return Json(rooms, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult getUsersOnRoom(Guid id)
@@ -83,10 +75,7 @@ namespace JoMAR.Controllers
             List<Jason> userList = new List<Jason>();
 
             ChatRoom room = (from p in db.ChatRooms where p.RoomID == id select p).First();
-            //aspnet_User[] users = (from user in db.aspnet_Users
-            //                       join m2m in db.UserRooms on user.UserId equals m2m.UserID
-            //                       where m2m.RoomID == id
-            //                       select user).ToArray();
+
             foreach (UserRoom ur in room.UserRooms)
             {
                 Profile p = Profile.GetProfile(ur.aspnet_User.UserName);

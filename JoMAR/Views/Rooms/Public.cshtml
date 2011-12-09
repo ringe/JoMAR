@@ -8,7 +8,7 @@
 <h2>Public ChatRooms</h2>
 
 <p>
-    @Html.ActionLink("Create New chatroom", "create")
+    New rooms will appear below. @Html.ActionLink("Create New chatroom", "create")
 </p>
 <table id="chatRooms">
     <tr>
@@ -39,3 +39,18 @@
     }
 }  
 </table>
+<script type="text/javascript">
+    window.setInterval(getRooms, 5000);
+
+    function getRooms() {
+        $.getJSON('@Url.Action("getRooms", "Jason")', function (result) {
+            var header = "<tr><th>Chatrooms</th><th>Owner of room </th><th></th></tr>\n";
+            var rooms = [];
+            $.each(result, function (k, item) {
+                var link = '@Url.Action("", "Chat")';
+                rooms.push("<tr><td>" + item.name + "</td><td>" + item.owner+"</td><td>" + "<a href='" + link + "/"+ item.name + "'> Enter " + (item.isPrivate ? "private " : " ") + "room</a>" + "</td></tr>");
+            });
+            $("#chatRooms").html(header+rooms.join("\n"));
+        });
+    }
+</script>
