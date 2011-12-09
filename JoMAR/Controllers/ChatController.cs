@@ -65,8 +65,7 @@ namespace JoMAR.Controllers
             return View(model);
         }
 
-        [Authorize]
-        [HttpPost]
+        [Authorize, HttpPost]
         public ActionResult Index(string name, string id, FormCollection collection)
         {
             if (name == User.Identity.Name)
