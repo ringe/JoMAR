@@ -1,0 +1,49 @@
+﻿@model JoMAR.Models.ChatModel
+
+@{
+    ViewBag.Title = "UploadFile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <h2>UploadFile</h2>
+  
+
+<h2>Chatroom: @Html.DisplayTextFor(model => model.Name)</h2>
+
+
+
+@using (Html.BeginForm("Index", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Chatting</legend>
+        <div class="display-label right-float"></div>
+        <div class="display-field right-float">
+            <h4>Users</h4>
+            <ul>
+              <select id="lb" style="width:250px" multiple="multiple" size="10"> </select>
+            </ul>
+        </div>
+        <div class="display-label left-float"> MessageBoard</div>
+        <div class="display-field left-float">        
+            @Html.TextArea("Messages",new { @class = "messageBoard"}) 
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Message)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Message)
+            @Html.ValidationMessageFor(model => model.Message)
+        </div>
+        <p>
+            <input type="file" name="file" />
+            <input type="submit" value="OK" />
+        </p>
+
+
+       
+    </fieldset>
+}
+
