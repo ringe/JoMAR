@@ -163,5 +163,10 @@ namespace JoMAR.Controllers
             return View(user);
         }
 
+        public ActionResult UploadFile()
+        {
+            return View();
+        }
+
     }
 }
