@@ -6,13 +6,6 @@
 
 <h2>Chatroom: @Html.DisplayTextFor(model => model.Name)</h2>
 
-
-<div class="display-label right-float"></div>
-        <div class="display-field right-float" id="users">
-        </div>
-        <div class="display-label left-float"> MessageBoard</div>
-        <div class="display-field left-float" id="Messages">        
-        </div>
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
@@ -26,17 +19,21 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.Message)
             @Html.ValidationMessageFor(model => model.Message)
-        </div>
-        <p>
+        
             <input type="submit" value="Publish message" />
             <input type="button" id="upload"  value="Upload File" />
-        </p>
+        </div>
     </fieldset>
 }
+<div class="display-label right-float"></div>
+        <div class="display-field right-float" id="users">
+        </div>
+        <div class="display-label left-float"> MessageBoard</div>
+        <div class="display-field left-float" id="Messages">        
+        </div>
+
 <div id="images"></div>
 <script type="text/javascript">
-    Messages.scrollTop = Messages.scrollHeight;
-
     window.setInterval(getPosts, 1000);
     window.setInterval(getUsers, 5000);
 
@@ -46,7 +43,7 @@
     });
 
     function getPosts() {
-        $.getJSON("/Jason/getMessages/@Model.RoomID", function (result) {
+        $.getJSON('@Url.Action("getMessages", "Jason")/@Model.RoomID', function (result) {
             var messages = [];
             $.each(result, function (k, item) {
                 var date = new Date(parseInt(item.date.substr(6)));

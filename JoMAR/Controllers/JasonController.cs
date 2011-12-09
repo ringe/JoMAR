@@ -31,7 +31,7 @@ namespace JoMAR.Controllers
                                  where p.RoomID == id
                                  select p).First();
 
-            ChatMessage[] msg = room.ChatMessages.OrderBy(d => d.Date).ToArray();
+            ChatMessage[] msg = room.ChatMessages.OrderByDescending(d => d.Date).ToArray();
             
             foreach (var message in msg)
             {
