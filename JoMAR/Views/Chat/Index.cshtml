@@ -53,6 +53,7 @@
                 if (item.image != null) {
                     msg += " <a href='" + '@Url.Action("", "uploads")' + "/" + item.image + "'>" + item.image + "</a>";
                 }
+                if (item.missing) msg += " (file is lost)";
                 messages.push(msg);
             });
             $("#Messages").html("<ul style='list-style:none;'><li>" + messages.join("</li><li>") + "</li></ul>");

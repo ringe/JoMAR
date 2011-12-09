@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
 using System.Web.Mvc;
 using System.Diagnostics;
 using System.Web.Script.Serialization;
@@ -32,13 +33,18 @@ namespace JoMAR.Controllers
             ChatMessage[] msg = room.ChatMessages.OrderByDescending(d => d.Date).ToArray();
             
             foreach (var message in msg)
-            {var js = new
+            {
+                bool missing = !System.IO.File.Exists(Server.MapPath("~/uploads/" + message.Image));
+                string file = (missing ? null : message.Image);
+                var js = new
                 {
                     date = message.Date,
                     user = message.aspnet_User.UserName,
                     text = message.Text,
-                    image = message.Image
+                    image = file,
+                    missing = missing
                 };
+
                 jasons.Add(js);
             }
             
