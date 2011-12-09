@@ -33,7 +33,7 @@
             @Html.DisplayFor(modelItem => item.aspnet_User.UserName)
         </td>
         <td>           
-            @Html.ActionLink("Enter room", "", "Chat/" + item.Name)
+            @Html.ActionLink("Enter " + (item.isPrivate ? " private " : " ") + "room", "", "Chat/" + item.Name)
         </td>
     </tr> 
     }

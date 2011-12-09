@@ -11,8 +11,7 @@
         <div class="display-field right-float" id="users">
         </div>
         <div class="display-label left-float"> MessageBoard</div>
-        <div class="display-field left-float">        
-            @Html.TextArea("Messages",new { @class = "messageBoard"}) 
+        <div class="display-field left-float" id="Messages">        
         </div>
 @using (Html.BeginForm())
 {
@@ -34,6 +33,7 @@
         </p>
     </fieldset>
 }
+<div id="images"></div>
 <script type="text/javascript">
     Messages.scrollTop = Messages.scrollHeight;
 
@@ -47,7 +47,18 @@
 
     function getPosts() {
         $.getJSON("/Jason/getMessages/@Model.RoomID", function (result) {
-            $("#Messages").replaceWith("<ul id='Messages'><li>" + result.join("</li><li>") + "</li></ul>");
+            var messages = [];
+            $.each(result, function (k, item) {
+                var date = new Date(parseInt(item.date.substr(6)));
+                var dato = date.getDay() + "." + date.getMonth() + " " + +date.getHours() + ":" + date.getMinutes();
+                var user = "<a href='/Chat/" + item.user + "'>" + item.user + "</a>";
+                var msg = dato + " " + user + ": " + item.text;
+                if (item.image != null) {
+                    msg += " <a href='/uploads/" + item.image + "'>" + item.image + "</a>";
+                }
+                messages.push(msg);
+            });
+            $("#Messages").html("<ul style='list-style:none;'><li>" + messages.join("</li><li>") + "</li></ul>");
         });
     }
 
@@ -84,6 +95,4 @@
             window.open("/Chat/UploadFile/@Model.RoomID", windowName, windowSize);
             event.preventDefault();
         });
-
-   
 </script>

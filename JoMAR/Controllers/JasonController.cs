@@ -24,6 +24,7 @@ namespace JoMAR.Controllers
 
             JodADataContext db = new JodADataContext();
             List<string> messages = new List<string>();
+            List<dynamic> jasons = new List<dynamic>();
             int i = 0;
 
             ChatRoom room = (from p in db.ChatRooms
@@ -38,9 +39,18 @@ namespace JoMAR.Controllers
                 str += "(<a href=\"/uploads/" + message.Image + "\">Click to get file </a>)";
                 messages.Add(str) ;
                 i++;
+
+                var js = new
+                {
+                    date = message.Date,
+                    user = message.aspnet_User.UserName,
+                    text = message.Text,
+                    image = message.Image
+                };
+                jasons.Add(js);
             }
             
-            return Json(messages.ToArray(), JsonRequestBehavior.AllowGet);
+            return Json(jasons, JsonRequestBehavior.AllowGet);
 
         }
 
