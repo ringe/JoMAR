@@ -34,7 +34,7 @@
         </div>
         <p>
             <input type="submit" value="Publish message" class="button" />
-            @Html.ActionLink("Upload File", "UploadFile")
+            <input type="button" id="upload"  value="Publish message" onclick=sendToUpload() />
         </p>
 
 
@@ -43,7 +43,8 @@
 }
 <script type="text/javascript">
     Messages.scrollTop = Messages.scrollHeight;
-   
+    var windowSizeArray = ["width=200,height=200",
+                            "width=300,height=400,scrollbars=yes"];
 
     window.setInterval(getPosts, 1000);
     window.setInterval(getUsers, 5000);
@@ -81,4 +82,13 @@
         });
     }
 
+    function sendToUpload()
+    {
+            $('#upload').click(function () {
+                var windowName = "Upload file"; //$(this).attr("name");
+                var windowSize = windowSizeArray[$(this).attr("rel")];
+                window.open('/Chat/UploadFile/', windowName, windowSize);
+                event.preventDefault();
+        });
+    }
 </script>

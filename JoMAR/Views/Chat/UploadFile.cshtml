@@ -1,11 +1,6 @@
 ﻿@model JoMAR.Models.ChatModel
            
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
 <h2>Upload your file</h2>
-
 
 @using (Html.BeginForm("Index", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -17,16 +12,8 @@
             <input id="newWindow"type="submit" value="Upload File" />
         </p>
     </fieldset>
-}
-   <script type="text/javascript">
-       $("form").submit(function () {
-           $.ajax({
-               type: "POST",
-               url: "/Chat/@Model.UrlName()",
-               data: $(this).serialize(),
-               success: alert("Success")
-           });
-           return false;
-       });
-</script>
+    
+     
 
+}
+  
