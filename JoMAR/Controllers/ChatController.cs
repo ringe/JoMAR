@@ -18,8 +18,8 @@ namespace JoMAR.Controllers
         {
             if (name == User.Identity.Name)
             {
-                Session["jomarmessage"] = "Schizophrenia!";
-                return Redirect("/Rooms/Public");
+                Session["jomarmessage"] = "Talking to yourself? Schizophrenia!";
+                return Redirect(Url.Action("", "Rooms"));
             }
 
             JodADataContext db = new JodADataContext();
@@ -38,7 +38,7 @@ namespace JoMAR.Controllers
             if (room == null)
             {
                 Session["jomarmessage"] = "No room found by that name!";
-                return Redirect("/Rooms");
+                return Redirect(Url.Action("", "Rooms"));
             }
 
             var model = new ChatModel(room, db);
@@ -52,7 +52,7 @@ namespace JoMAR.Controllers
             else
             {
                 Session["jomarmessage"] = "The room you tried to access is private, members only!";
-                return Redirect("/Rooms");
+                return Redirect(Url.Action("", "Rooms"));
             }
         }
 
@@ -62,7 +62,7 @@ namespace JoMAR.Controllers
             if (name == User.Identity.Name)
             {
                 Session["jomarmessage"] = "Schizophrenia!";
-                return Redirect("/Rooms/Public");
+                return Redirect(Url.Action("Public", "Rooms"));
             }
 
             JodADataContext db = new JodADataContext();
@@ -81,7 +81,7 @@ namespace JoMAR.Controllers
             if (room == null)
             {
                 Session["jomarmessage"] = "No room found by that name!";
-                return Redirect("/Rooms");
+                return Redirect(Url.Action("", "Rooms"));
             }
 
             var model = new ChatModel(room, db);
@@ -96,16 +96,12 @@ namespace JoMAR.Controllers
             else
             {
                 Session["jomarmessage"] = "The room you tried to access is private, members only!";
-                return Redirect("/Rooms");
+                return Redirect(Url.Action("", "Rooms"));
             }
         }
 
         public ActionResult Profile()
         {
-            //JodADataContext db = new JodADataContext();
-            //var user = (from p in db.aspnet_Users
-            //             where p.UserName == User.Identity.Name
-            //             select p).First();
             JoMAR.Models.Profile user = JoMAR.Models.Profile.GetProfile(User.Identity.Name);
             return View(user);
         }

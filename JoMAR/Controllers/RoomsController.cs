@@ -39,15 +39,9 @@ namespace JoMAR.Controllers
             return View(rooms);
         }
 
-
+        [Authorize]
         public ActionResult edit(Guid id)
         {
-            if (!Request.IsAuthenticated)
-            {
-                Session["jomarmessage"] = "Log in to chat!";
-                return Redirect("/Rooms/Public");
-            }
-
             JodADataContext db = new JodADataContext();
             ChatRoom room = (from p in db.ChatRooms
                              where p.RoomID.ToString() == (String)Url.RequestContext.RouteData.Values.Last().Value
@@ -56,15 +50,9 @@ namespace JoMAR.Controllers
             return View(room);
         }
 
-        [HttpPost]
+        [HttpPost,Authorize]
         public ActionResult edit(Guid id, FormCollection collection)
         {
-            if (!Request.IsAuthenticated)
-            {
-                Session["jomarmessage"] = "Log in to chat!";
-                return Redirect("/Rooms/Public");
-            }
-
             JodADataContext db = new JodADataContext();
             ChatRoom editChat = (from p in db.ChatRooms
                                  where p.RoomID == id
@@ -77,7 +65,7 @@ namespace JoMAR.Controllers
             if (editChat.aspnet_User != user)
             {
                 Session["jomarmessage"] = "You can't edit a room you don't own.";
-                return Redirect("/");
+                return Redirect(Url.Action("", "Rooms"));
             }
 
             if (ModelState.IsValid)
@@ -85,32 +73,21 @@ namespace JoMAR.Controllers
                 UpdateModel(editChat);
                 db.SubmitChanges();
 
-                return Redirect("/Chat/" + editChat.Name);
+                return Redirect(Url.Action(editChat.Name, "Chat"));
             }
             return View(editChat);
         }
 
+        [Authorize]
         public ActionResult create()
         {
-            if (!Request.IsAuthenticated)
-            {
-                Session["jomarmessage"] = "Log in to create a room!";
-                return Redirect("/Rooms/Public");
-            }
-
             var rooms = new ChatRoom();
             return View(rooms);
         }
 
-        [HttpPost]
+        [HttpPost,Authorize]
         public ActionResult create(ChatRoom model, string returnUrl)
         {
-            if (!Request.IsAuthenticated)
-            {
-                Session["jomarmessage"] = "Log in to create a room!";
-                return Redirect("/Rooms/Public");
-            }
-
             JodADataContext db = new JodADataContext();
 
             if (ModelState.IsValid)
@@ -123,19 +100,14 @@ namespace JoMAR.Controllers
 
                 db.SubmitChanges();
 
-                return Redirect("/Chat/" + model.Name);
+                return Redirect(Url.Action(model.Name, "Chat"));
             }
             return View(model);
         }
 
+        [Authorize]
         public ActionResult delete(Guid id)
         {
-            if (!Request.IsAuthenticated)
-            {
-                Session["jomarmessage"] = "Log in to delete a room!";
-                return Redirect("/Rooms/Public");
-            }
-
             JodADataContext db = new JodADataContext();
             ChatRoom room = (from p in db.ChatRooms
                              where p.RoomID.ToString() == (String)Url.RequestContext.RouteData.Values.Last().Value
@@ -144,15 +116,9 @@ namespace JoMAR.Controllers
             return View(room);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult delete(Guid id, FormCollection collection)
         {
-            if (!Request.IsAuthenticated)
-            {
-                Session["jomarmessage"] = "Log in to delete a room!";
-                return Redirect("/Rooms/Public");
-            }
-
             JodADataContext db = new JodADataContext();
             ChatRoom deleteChat = (from p in db.ChatRooms
                                  where p.RoomID == id
@@ -164,7 +130,7 @@ namespace JoMAR.Controllers
             if (deleteChat.aspnet_User != user)
             {
                 Session["jomarmessage"] = "You can't delete a room you don't own.";
-                return Redirect("/");
+                return Redirect(Url.Action("", "Rooms"));
             }
 
             if (ModelState.IsValid)
@@ -174,19 +140,14 @@ namespace JoMAR.Controllers
                 db.ChatRooms.DeleteOnSubmit(deleteChat);
                 db.SubmitChanges();
 
-                return Redirect("/");
+                return Redirect(Url.Action("", "Rooms"));
             }
             return View(deleteChat);
         }
 
+        [Authorize]
         public ActionResult Private()
         {
-            if (!Request.IsAuthenticated)
-            {
-                Session["jomarmessage"] = "Log in to see my rooms!";
-                return Redirect("/Rooms/Public");
-            }
-
             JodADataContext db = new JodADataContext();
             aspnet_User user = (from p in db.aspnet_Users
                                 where p.UserName == User.Identity.Name
@@ -197,15 +158,9 @@ namespace JoMAR.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost,Authorize]
         public ActionResult Private(FormCollection collection)
         {
-            if (!Request.IsAuthenticated)
-            {
-                Session["jomarmessage"] = "Log in to see my rooms!";
-                return Redirect("/Rooms/Public");
-            }
-
             JodADataContext db = new JodADataContext();
             aspnet_User newMember = (from p in db.aspnet_Users
                                 where p.UserId.ToString() == collection["SelectedValue"]
@@ -220,7 +175,7 @@ namespace JoMAR.Controllers
             if (room.UserID != user.UserId)
             {
                 Session["jomarmessage"] = "You can't add users to a room you don't own.";
-                return Redirect("/Rooms/Private");
+                return Redirect(Url.Action("Private", "Rooms"));
             }
 
             List<Guid> mmm = new List<Guid>();
