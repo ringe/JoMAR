@@ -81,6 +81,8 @@ namespace JoMAR.Controllers
                 MembershipCreateStatus createStatus;
                 Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
 
+                SMS.Send("Your verification code at JoMAR is: " + Tools.GetCode() + " (case sensitive)", "JoMAR", model.CellPhone);
+
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);

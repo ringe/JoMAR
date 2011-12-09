@@ -1,4 +1,6 @@
-﻿@{
+﻿@model JoMAR.Models.Invite
+
+@{
     ViewBag.Title = "About Us";
 }
 
@@ -12,3 +14,17 @@
 
      <br /><br />Altså: JoMAR
 </p>
+<h1>@ViewBag.Thanks</h1>
+@using (Html.BeginForm()) { 
+    <div>
+        <fieldset>
+            <div class="editor-label">
+                @Html.LabelFor(m => m.CellPhone)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.CellPhone)
+                @Html.ValidationMessageFor(m => m.CellPhone)
+            </div>
+        </fieldset>
+    </div>
+}
