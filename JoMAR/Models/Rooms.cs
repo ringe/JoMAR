@@ -23,6 +23,9 @@ namespace JoMAR.Models
             String A = user1.CellPhone + user2.CellPhone;
             String B = user2.CellPhone + user1.CellPhone;
 
+            // No rooms with oneself
+            if (A == B) return null;
+
             // Select rooms where name is A or B and the room is private, not public and with only two users
             List<ChatRoom> rooms = (from r in db.ChatRooms
                                      where (r.Name == A || r.Name == B && r.isPrivate && !r.isPublic && r.UserRooms.Count == 2)
