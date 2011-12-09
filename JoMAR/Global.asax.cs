@@ -107,17 +107,37 @@ namespace JoMAR
                             {
                                 string[] text = Regex.Split(sms.txt, @"\W+");
                                 bool found = false;
+
+                                // If UserName found, post to private room
                                 if (users.Contains(text[0].ToLower()))
                                 {
                                     found = true;
+                                    Profile user1 = Profile.GetProfile(user);
+                                    Profile user2 = Profile.GetProfile(user);
+                                    ChatRoom room = Rooms.Private(user1, user2, db);
+
+                                    // Prepare message
+                                    string msg = "";
+                                    foreach (string s in text)
+                                        if (s != text[0])
+                                            msg += s + " ";
+
+                                    // Post message to room
+                                    Rooms.Post(msg, user1.UserId, room.RoomID, db);
+
+                                    // Forward message to the other user
+                                    SMS.Send(user1.UserName + " said: " + msg, "JoMAR", user2.CellPhone);
                                     //Debug.WriteLine("Found message to user '" + text[0] + "'");
                                 }
+
+                                // If Room found, post.
                                 if (rooms.Contains(text[0].ToLower()))
                                 {
                                     found = true;
                                     //Debug.WriteLine("Found message to room '" + text[0] + "'");
                                 }
 
+                                // Reply with not found if no room found.
                                 if (!found)
                                     SMS.Send("Thanks for you interest in us, but we didn't find the user or room you seek.", "JoMAR", sms.snd);
                             }

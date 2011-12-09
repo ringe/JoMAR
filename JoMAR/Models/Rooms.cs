@@ -81,5 +81,26 @@ namespace JoMAR.Models
             else  // Return the first room found
                 return rooms.First();
         }
+
+        /// <summary>
+        /// Post message to room.
+        /// </summary>
+        /// <param name="msg">The message.</param>
+        /// <param name="user">The user id</param>
+        /// <param name="room">The room id</param>
+        /// <param name="db">JodADataContext</param>
+        public static void Post(string msg, Guid user, Guid room, JodADataContext db)
+        {
+            ChatMessage message = new ChatMessage();
+            message.Date = DateTime.Now;
+            message.MessageID = Guid.NewGuid();
+            message.UserID = user;
+            message.RoomID = room;
+            message.Text = msg;
+            
+            // Submit message to DB
+            db.ChatMessages.InsertOnSubmit(message);
+            db.SubmitChanges();
+        }
     }
 }
