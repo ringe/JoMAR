@@ -5,6 +5,7 @@ using System.Web;
 using System.Text;
 using System.Net;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace JoMAR.Models
 {
@@ -13,12 +14,19 @@ namespace JoMAR.Models
     /// </summary>
     public class SMS
     {
-        private int id;
-        private long snd;
-        private long rcv;
-        private string txt;
-        private DateTime date;
-        private string status;
+        //private int id;
+        //private long snd;
+        //private long rcv;
+        //private string txt;
+        //private DateTime date;
+        //private string status;
+
+        public string id { get; set; }
+        public string snd { get; set; }
+        public string rcv { get; set; }
+        public string txt { get; set; }
+        public string date { get; set; }
+        public string status { get; set; }
 
         /// <summary>
         /// Constructor
@@ -26,32 +34,12 @@ namespace JoMAR.Models
         public SMS() {}
 
         /// <summary>
-        /// Return the SMS text
-        /// </summary>
-        public String Message { get { return txt; } }
-
-        /// <summary>
-        /// Return the SMS date
-        /// </summary>
-        public DateTime Date { get { return date; } }
-
-        /// <summary>
-        /// Return the Sender's phone number
-        /// </summary>
-        public long Sender { get { return snd; } }
-
-        /// <summary>
-        /// Return the Receiver's phone number
-        /// </summary>
-        public long Receiver { get { return rcv; } }
-
-        /// <summary>
         /// Any logging here?
         /// </summary>
         /// <param name="message">The message to send</param>
         /// <param name="sender">The sender's phone number</param>
         /// <param name="receiver">The receiver's phone number</param>
-        public static Boolean Send(String message, long sender, long receiver) {
+        public static Boolean Send(String message, string sender, string receiver) {
             // used to build entire input
             StringBuilder sb = new StringBuilder();
 
@@ -121,9 +109,9 @@ namespace JoMAR.Models
         /// <summary>
         /// Fetch all SMS's sent by the given number
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">The number to look up</param>
         /// <returns></returns>
-        public static String Get(long sender)
+        public static SMS Get(long sender)
         {
             // used to build entire input
             StringBuilder sb = new StringBuilder();
@@ -171,8 +159,12 @@ namespace JoMAR.Models
             resStream.Close();
             response.Close();
 
-            // Success
-            return sb.ToString();
+            // Convert result to SMS
+            SMS sms = (SMS)JsonConvert.DeserializeObject(sb.ToString(), typeof(SMS));
+            
+
+            // Return the SMS found
+            return sms;
         }
     }
 }
