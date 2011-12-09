@@ -21,26 +21,21 @@
         <th></th>
     </tr>
 
-
-
-<script type="text/javascript">
-
-    window.setInterval(getRooms, 5000);
-
-    $(document).ready(function () {
-        getRooms()
-    });
-
-    function getRooms() {
-        $.getJSON("/Jason/getRooms", function (data) {
-            var html = '<tr><th> ChatRooms </th><th> Owner of room </th><th></th></tr>';
-            var len = data.length;
-            for (var i = 0; i < len; i++) {
-                html += '<tr><td>' + data[i].Name + '</td><td>' + data[i].aspnet_User.UserName + '</td></tr>';
-            }
-            $('#chatRooms').html(html);
-        });
+@foreach (JoMAR.ChatRoom item in Model)
+{
+    if (item.isPublic)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.aspnet_User.UserName)
+        </td>
+        <td>           
+            @Html.ActionLink("Enter room", "", "Chat/" + item.Name)
+        </td>
+    </tr> 
     }
-
-</script>
+}  
 </table>
