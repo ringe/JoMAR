@@ -1,6 +1,9 @@
-﻿@model JoMAR.Models.ChatModel
-           
+﻿﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <h2>Upload your file</h2>
+
 
 @using (Html.BeginForm("Index", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -9,11 +12,7 @@
         <legend>Chatting upload</legend>
         <p>
             <input type="file" name="file" />
-            <input id="newWindow"type="submit" value="Upload File" />
+            <input type="submit" value="Upload File" />
         </p>
     </fieldset>
-    
-     
-
 }
-  

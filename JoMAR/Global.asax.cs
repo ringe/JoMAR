@@ -107,13 +107,14 @@ namespace JoMAR
                             {
                                 string[] text = Regex.Split(sms.txt, @"\W+");
                                 bool found = false;
+                                string candidate = text[0].ToLower();
 
                                 // If UserName found, post to private room
-                                if (users.Contains(text[0].ToLower()))
+                                if (users.Contains(candidate))
                                 {
                                     found = true;
                                     Profile user1 = Profile.GetProfile(user);
-                                    Profile user2 = Profile.GetProfile(user);
+                                    Profile user2 = Profile.GetProfile(candidate);
                                     ChatRoom room = Rooms.Private(user1, user2, db);
 
                                     // Prepare message
@@ -134,6 +135,19 @@ namespace JoMAR
                                 if (rooms.Contains(text[0].ToLower()))
                                 {
                                     found = true;
+
+                                    // Prepare message
+                                    string msg = "";
+                                    foreach (string s in text)
+                                        if (s != text[0])
+                                            msg += s + " ";
+
+                                    // Find user and room
+                                    Profile user1 = Profile.GetProfile(user);
+                                    ChatRoom room = Rooms.Public(candidate, db);
+
+                                    // Post message to room
+                                    Rooms.Post(msg, user1.UserId, room.RoomID, db);
                                     //Debug.WriteLine("Found message to room '" + text[0] + "'");
                                 }
 
