@@ -92,7 +92,7 @@ namespace JoMAR.Models
         /// <param name="user">The user id</param>
         /// <param name="room">The room id</param>
         /// <param name="db">JodADataContext</param>
-        public static void Post(string msg, Guid user, Guid room, JodADataContext db)
+        public static void Post(string msg, Guid user, Guid room, JodADataContext db, string image="")
         {
             ChatMessage message = new ChatMessage();
             message.Date = DateTime.Now;
@@ -100,6 +100,8 @@ namespace JoMAR.Models
             message.UserID = user;
             message.RoomID = room;
             message.Text = msg;
+            if (image != "")
+                message.Image = image;
             
             // Submit message to DB
             db.ChatMessages.InsertOnSubmit(message);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Diagnostics;
+using System.Web.Script.Serialization;
 
 namespace JoMAR.Controllers
 {
@@ -33,7 +34,7 @@ namespace JoMAR.Controllers
             foreach (var message in msg)
             {
                 string str = message.Date + " " + message.aspnet_User.UserName + " said: " + message.Text;
-                str += "(<a href=\"/Upload/GetFileFromDisk/" + ">Click to get file </a>)";
+                str += "(<a href=\"/uploads/" + message.Image + "\">Click to get file </a>)";
                 messages.Add(str) ;
                 i++;
             }
@@ -70,16 +71,17 @@ namespace JoMAR.Controllers
             JodADataContext db = new JodADataContext();
             List<string> userList = new List<string>();
 
-            aspnet_User[] users = (from user in db.aspnet_Users
-                                   join m2m in db.UserRooms on user.UserId equals m2m.UserID
-                                   where m2m.RoomID == id
-                                   select user).ToArray();
-            foreach (var r in users)
-            {
-                userList.Add(r.UserName);
-            }
-
-            return Json(userList.ToArray(), JsonRequestBehavior.AllowGet);
+            List<ChatRoom> room = (from p in db.ChatRooms where p.RoomID == id select p).ToList();
+            //aspnet_User[] users = (from user in db.aspnet_Users
+            //                       join m2m in db.UserRooms on user.UserId equals m2m.UserID
+            //                       where m2m.RoomID == id
+            //                       select user).ToArray();
+            //foreach (UserRoom ur in room.UserRooms)
+            //{
+            //    userList.Add(ur.aspnet_User.UserName);
+            //}
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            return Json(js.Serialize(room), JsonRequestBehavior.AllowGet);
 
         }
 

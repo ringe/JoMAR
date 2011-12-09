@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using JoMAR.Models;
 
 
 
@@ -11,17 +12,12 @@ namespace JoMAR.Controllers
 {
     public class UploadController : Controller
     {
-        //
-        // GET: /Upload/
-
-        public ActionResult Index()
+        [Authorize, HttpPost]
+        public void Index(Guid room, HttpPostedFileBase file)
         {
-            return View();
-        }
+            Profile user = JoMAR.Models.Profile.GetProfile(User.Identity.Name);
+            JodADataContext db = new JodADataContext();
 
-        [HttpPost]
-        public void Index(HttpPostedFileBase file)
-        {
             // Verify that the user selected a file
             if (file != null && file.ContentLength > 0)
             {
@@ -30,15 +26,9 @@ namespace JoMAR.Controllers
                 // store the file inside ~/App_Data/uploads folder
                 var path = Path.Combine(Server.MapPath("~/uploads"), fileName);
                 file.SaveAs(path);
-            }
-            
-        }
 
-        public FilePathResult GetFileFromDisk()
-        {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "uploads/";
-            string fileName = "test.txt";
-            return File(path + fileName, "text/plain", "test.txt");
-        } 
+                Rooms.Post("File uploaded by "+ user.UserName, user.UserId, room, db, fileName);
+            }
+        }
     }
 }

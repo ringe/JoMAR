@@ -14,7 +14,7 @@
         <elementListCompartment Id="d017d652-4692-4187-812f-60775bf65300" absoluteBounds="5.1400000000000006, 6.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.9375 : 3.28049967447917); (5.9375 : 6)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.9375 : 3.28049967447917); (5.9375 : 6)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/JodADataContext/aspnet_User/aspnet_User_UserRoom" />
       <nodes>
         <classShapeMoniker Id="0f475714-679d-4ca6-a155-363f43742eff" />
@@ -27,38 +27,18 @@
         <elementListCompartment Id="e236816e-3141-44da-a5a9-590e822c19da" absoluteBounds="8.515, 5.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(8.5 : 6.51044840494792); (7.125 : 6.51044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.5 : 6.51044840494792); (7.125 : 6.51044840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/JodADataContext/ChatRoom/ChatRoom_UserRoom" />
       <nodes>
         <classShapeMoniker Id="729de7af-8120-4389-85cc-ab0da8c6e660" />
         <classShapeMoniker Id="8012274c-f132-42a8-8b90-3bf416926479" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.90625 : 3.28049967447917); (4.90625 : 5.59375); (5.85416666666667 : 5.59375 : JumpStart); (6.02083333333333 : 5.59375 : JumpEnd); (8.5 : 5.59375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.90625 : 3.28049967447917); (4.90625 : 5.59375); (5.85416666666667 : 5.59375 : JumpStart); (6.02083333333333 : 5.59375 : JumpEnd); (8.5 : 5.59375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/JodADataContext/aspnet_User/aspnet_User_ChatRoom" />
       <nodes>
         <classShapeMoniker Id="0f475714-679d-4ca6-a155-363f43742eff" />
         <classShapeMoniker Id="729de7af-8120-4389-85cc-ab0da8c6e660" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="cfc651c3-d9ba-4c18-b232-c2023d7a2710" absoluteBounds="7.5, 1.375, 2, 1.7708968098958331">
-      <DataClassMoniker Name="/JodADataContext/ChatMessage" />
-      <nestedChildShapes>
-        <elementListCompartment Id="25c0ff74-b036-4078-8773-20e2e850a2d2" absoluteBounds="7.515, 1.835, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(6.75 : 2.26044840494792); (7.5 : 2.26044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/JodADataContext/aspnet_User/aspnet_User_ChatMessage" />
-      <nodes>
-        <classShapeMoniker Id="0f475714-679d-4ca6-a155-363f43742eff" />
-        <classShapeMoniker Id="cfc651c3-d9ba-4c18-b232-c2023d7a2710" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(9 : 5.25); (9 : 3.14589680989583)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/JodADataContext/ChatRoom/ChatRoom_ChatMessage" />
-      <nodes>
-        <classShapeMoniker Id="729de7af-8120-4389-85cc-ab0da8c6e660" />
-        <classShapeMoniker Id="cfc651c3-d9ba-4c18-b232-c2023d7a2710" />
       </nodes>
     </associationConnector>
     <classShape Id="849ad0f1-981d-4feb-85ea-b7b0399a13fc" absoluteBounds="0.5, 0.875, 2, 4.8477197265625">
@@ -67,7 +47,7 @@
         <elementListCompartment Id="44cfd500-7db2-4136-8000-6ee30dc20dc9" absoluteBounds="0.51500000000000012, 1.335, 1.9700000000000002, 4.2877197265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4.75 : 2.20274983723958); (3.70833333333333 : 2.20274983723958 : JumpStart); (3.54166666666667 : 2.20274983723958 : JumpEnd); (2.5 : 2.20274983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.75 : 2.48780854654948); (3.70833333333333 : 2.48780854654948 : JumpStart); (3.54166666666667 : 2.48780854654948 : JumpEnd); (2.5 : 2.48780854654948)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/JodADataContext/aspnet_User/aspnet_User_aspnet_Membership" />
       <nodes>
         <classShapeMoniker Id="0f475714-679d-4ca6-a155-363f43742eff" />
@@ -99,18 +79,38 @@
         <elementListCompartment Id="087c3f22-c9af-4cf9-bdbf-3a6411d5c519" absoluteBounds="2.89, 7.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4.5625 : 8.5); (4.5625 : 8.31899251302083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.5625 : 8.5); (4.5625 : 8.31899251302083)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/JodADataContext/aspnet_Role/aspnet_Role_aspnet_UsersInRole" />
       <nodes>
         <classShapeMoniker Id="180ad1c4-d7aa-4c70-9bd0-8ea3131f1e4d" />
         <classShapeMoniker Id="ab896f8b-13cf-4ee9-95e6-c9056785df67" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.75 : 1.63262241861979); (3.625 : 1.63262241861979); (3.625 : 7.125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.75 : 1.63262241861979); (3.625 : 1.63262241861979); (3.625 : 7.125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/JodADataContext/aspnet_User/aspnet_User_aspnet_UsersInRole" />
       <nodes>
         <classShapeMoniker Id="0f475714-679d-4ca6-a155-363f43742eff" />
         <classShapeMoniker Id="ab896f8b-13cf-4ee9-95e6-c9056785df67" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="f0866b3b-09c6-4dd4-8f9b-f08f61b3eb13" absoluteBounds="8.125, 1.875, 2, 1.9631982421875">
+      <DataClassMoniker Name="/JodADataContext/ChatMessage" />
+      <nestedChildShapes>
+        <elementListCompartment Id="89dd0a05-8884-4c42-9792-bd4ee35ecd11" absoluteBounds="8.14, 2.335, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(6.75 : 2.57774983723958); (8.125 : 2.57774983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JodADataContext/aspnet_User/aspnet_User_ChatMessage" />
+      <nodes>
+        <classShapeMoniker Id="0f475714-679d-4ca6-a155-363f43742eff" />
+        <classShapeMoniker Id="f0866b3b-09c6-4dd4-8f9b-f08f61b3eb13" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(9.3125 : 5.25); (9.3125 : 3.8381982421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JodADataContext/ChatRoom/ChatRoom_ChatMessage" />
+      <nodes>
+        <classShapeMoniker Id="729de7af-8120-4389-85cc-ab0da8c6e660" />
+        <classShapeMoniker Id="f0866b3b-09c6-4dd4-8f9b-f08f61b3eb13" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

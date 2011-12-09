@@ -12,9 +12,20 @@
     <div style='background-color:#FF3300'>
         @using (Html.BeginForm("Index", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
+            <input type="hidden" value="@ViewBag.room" name="room" />
+            
           <input type="file" name="file" />
-          <input type="submit" value="Upload" />
+          <input id="mama" type="submit" value="Upload" />
         }
     </div>
+    <script type="text/javascript">
+        $("form").submit(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/Upload'
+            });
+            return false;
+        });
+    </script>
 </body>
 </html>

@@ -7,13 +7,7 @@
 <h2>Chatroom: @Html.DisplayTextFor(model => model.Name)</h2>
 
 
-
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Chatting</legend>
-        <div class="display-label right-float"></div>
+<div class="display-label right-float"></div>
         <div class="display-field right-float">
             <h4>Users</h4>
             <ul>
@@ -24,6 +18,12 @@
         <div class="display-field left-float">        
             @Html.TextArea("Messages",new { @class = "messageBoard"}) 
         </div>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Chatting</legend>
+        
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Message)
@@ -33,8 +33,8 @@
             @Html.ValidationMessageFor(model => model.Message)
         </div>
         <p>
-            <input type="submit" value="Publish message" class="button" />
-            <input type="button" id="upload"  value="Upload File" onclick=sendToUpload() />
+            <input type="submit" value="Publish message" />
+            <input type="button" id="upload"  value="Upload File" />
         </p>
     </fieldset>
 }
@@ -45,13 +45,12 @@
     window.setInterval(getUsers, 5000);
 
     $(document).ready(function () {
-        getUsers()
         getPosts()
     });
 
     function getPosts() {
         $.getJSON("/Jason/getMessages/@Model.RoomID", function (result) {
-            $("textarea#Messages").val(result.join("\n"));
+            $("#Messages").replaceWith("<ul id='Messages'><li>" + result.join("</li><li>") + "</li></ul>");
         });
     }
 
@@ -60,34 +59,20 @@
         $.ajax({
             type: "POST",
             url: "/Chat/@Model.UrlName()",
-            data: $(this).serialize(),
+            data: $("form").serialize(),
             success: getPosts()
         });
         return false;
-    });
-
-    function getUsers() {
-        $.getJSON("/Jason/getUsersOnRoom/@Model.RoomID", function (data) {
-            var html = '';
-            var len = data.length;
-            for (var i = 0; i < len; i++) {
-                html += '<option value="' + data[i].toString() + '">' + data[i].toString() + '</option>';
-            }
-            $('#lb').html(html);
-        });
     }
+    );
 
-    function sendToUpload()
-    {
-        var windowSizeArray = ["width=500,height=10",
-                            "width=600,height=10,scrollbars=yes"];
-        $('#upload').click(function () {
+    $('#upload').click(function () {
+            var windowSizeArray = ["width=500,height=10", "width=600,height=10,scrollbars=yes"];
             var windowName = "Upload file";
             var windowSize = windowSizeArray;
-            window.open('/Chat/UploadFile/', windowName, windowSize);
+            window.open("/Chat/UploadFile/@Model.RoomID", windowName, windowSize);
             event.preventDefault();
         });
-    }
 
    
 </script>

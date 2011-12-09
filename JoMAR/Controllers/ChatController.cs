@@ -138,8 +138,9 @@ namespace JoMAR.Controllers
             return View(user);
         }
 
-        public ActionResult UploadFile()
+        public ActionResult UploadFile(Guid id)
         {
+            ViewBag.room = id;
             return View();
         }
 

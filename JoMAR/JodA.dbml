@@ -11,10 +11,10 @@
       <Column Name="LastActivityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="aspnet_User_UserRoom" Member="UserRoom" ThisKey="UserId" OtherKey="UserID" Type="UserRoom" Cardinality="One" />
       <Association Name="aspnet_User_ChatRoom" Member="ChatRooms" ThisKey="UserId" OtherKey="UserID" Type="ChatRoom" />
-      <Association Name="aspnet_User_ChatMessage" Member="ChatMessages" ThisKey="UserId" OtherKey="UserID" Type="ChatMessage" />
       <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_Membership" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Membership" Cardinality="One" />
       <Association Name="aspnet_User_aspnet_Profile" Member="aspnet_Profile" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Profile" Cardinality="One" />
       <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="aspnet_UsersInRole" />
+      <Association Name="aspnet_User_ChatMessage" Member="ChatMessages" ThisKey="UserId" OtherKey="UserID" Type="ChatMessage" />
     </Type>
   </Table>
   <Table Name="dbo.UserRooms" Member="UserRooms">
@@ -35,17 +35,6 @@
       <Association Name="ChatRoom_UserRoom" Member="UserRooms" ThisKey="RoomID" OtherKey="RoomID" Type="UserRoom" />
       <Association Name="ChatRoom_ChatMessage" Member="ChatMessages" ThisKey="RoomID" OtherKey="RoomID" Type="ChatMessage" />
       <Association Name="aspnet_User_ChatRoom" Member="aspnet_User" ThisKey="UserID" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.ChatMessages" Member="ChatMessages">
-    <Type Name="ChatMessage">
-      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Text" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="MessageID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="RoomID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Association Name="aspnet_User_ChatMessage" Member="aspnet_User" ThisKey="UserID" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
-      <Association Name="ChatRoom_ChatMessage" Member="ChatRoom" ThisKey="RoomID" OtherKey="RoomID" Type="ChatRoom" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.aspnet_Membership" Member="aspnet_Memberships">
@@ -100,6 +89,18 @@
       <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="aspnet_Role_aspnet_UsersInRole" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
       <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ChatMessages" Member="ChatMessages">
+    <Type Name="ChatMessage">
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Text" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="MessageID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoomID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Image" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="aspnet_User_ChatMessage" Member="aspnet_User" ThisKey="UserID" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="ChatRoom_ChatMessage" Member="ChatRoom" ThisKey="RoomID" OtherKey="RoomID" Type="ChatRoom" IsForeignKey="true" />
     </Type>
   </Table>
   <Function Name="dbo.aspnet_Membership_GetAllUsers" Method="aspnet_Membership_GetAllUsers" IsComposable="true">

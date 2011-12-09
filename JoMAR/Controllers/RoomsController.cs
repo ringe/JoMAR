@@ -25,7 +25,7 @@ namespace JoMAR.Controllers
         public ActionResult About(FormCollection collection)
         {
             Profile p = Profile.GetProfile(User.Identity.Name);
-            string text = "You are invited to join JoMAR chat by: " + p.Name;
+            string text = "You are invited to join JoMAR chat by: " + ((p == null) ? "" : p.Name);
             SMS.Send(text, "JoMAR", collection["CellPhone"]);
             ViewBag.Thanks = "Thank you!";
             return View(new Invite());
