@@ -48,7 +48,7 @@
             var rooms = [];
             $.each(result, function (k, item) {
                 var link = '@Url.Action("", "Chat")';
-                rooms.push("<tr><td>" + item.name + "</td><td>" + item.owner+"</td><td>" + "<a href='" + link + "/"+ item.name + "'> Enter " + (item.isPrivate ? "private " : " ") + "room</a>" + "</td></tr>");
+                rooms.push("<tr><td>" + item.name + "</td><td>" + item.avatar +"</td><td>" + "<a href='" + link + "/"+ item.name + "'> Enter " + (item.isPrivate ? "private " : " ") + "room</a>" + "</td></tr>");
             });
             $("#chatRooms").html(header+rooms.join("\n"));
         });

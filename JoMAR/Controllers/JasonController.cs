@@ -67,6 +67,7 @@ namespace JoMAR.Controllers
                 {
                     name = r.Name,
                     owner = r.aspnet_User.UserName,
+                    avatar = Tools.Gravatar(r.aspnet_User.aspnet_Membership.Email, r.Name),
                     isPrivate = r.isPrivate
                 };
                 rooms.Add(js);
