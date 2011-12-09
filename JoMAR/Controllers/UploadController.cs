@@ -20,21 +20,25 @@ namespace JoMAR.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(HttpPostedFileBase file)
+        public void Index(HttpPostedFileBase file)
         {
-
             // Verify that the user selected a file
             if (file != null && file.ContentLength > 0)
             {
                 // extract only the fielname
                 var fileName = Path.GetFileName(file.FileName);
                 // store the file inside ~/App_Data/uploads folder
-                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                var path = Path.Combine(Server.MapPath("~/uploads"), fileName);
                 file.SaveAs(path);
             }
-            // redirect back to the index action to show the form once again
-            return RedirectToAction("Index");        
+            
         }
 
+        public FilePathResult GetFileFromDisk()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "uploads/";
+            string fileName = "test.txt";
+            return File(path + fileName, "text/plain", "test.txt");
+        } 
     }
 }

@@ -32,7 +32,9 @@ namespace JoMAR.Controllers
             
             foreach (var message in msg)
             {
-                messages.Add(message.Date + " " + message.aspnet_User.UserName + " said: " + message.Text);
+                string str = message.Date + " " + message.aspnet_User.UserName + " said: " + message.Text;
+                str += "(<a href=\"/Upload/GetFileFromDisk/" + ">Click to get file </a>)";
+                messages.Add(str) ;
                 i++;
             }
             

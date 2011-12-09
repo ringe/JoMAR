@@ -1,18 +1,20 @@
-﻿﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    Layout = null;
 }
 
-<h2>Upload your file</h2>
+<!DOCTYPE html>
 
-
-@using (Html.BeginForm("Index", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Chatting upload</legend>
-        <p>
-            <input type="file" name="file" />
-            <input type="submit" value="Upload File" />
-        </p>
-    </fieldset>
-}
+<html>
+<head>
+    <title>Upload</title>
+</head>
+<body>
+    <div style='background-color:#FF3300'>
+        @using (Html.BeginForm("Index", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+          <input type="file" name="file" />
+          <input type="submit" value="Upload" />
+        }
+    </div>
+</body>
+</html>
