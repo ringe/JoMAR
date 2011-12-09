@@ -91,6 +91,8 @@ namespace JoMAR.Models
         [Display(Name = "Name")]
         public virtual string Name { get { return this.FirstName + " " + this.LastName; } }
 
+        [Display(Name = "UserId")]
+        public virtual Guid UserId { get { return user.UserId; } }
 
         /// <summary>
         /// Get a Profile for the given user

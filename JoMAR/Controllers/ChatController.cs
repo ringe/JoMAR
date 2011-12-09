@@ -13,13 +13,9 @@ namespace JoMAR.Controllers
         //
         // GET: /Chat/
 
+        [Authorize]
         public ActionResult Index(string name)
         {
-            if (!Request.IsAuthenticated)
-            {
-                Session["jomarmessage"] = "Log in to chat!";
-                return Redirect("/Rooms/Public");
-            }
             if (name == User.Identity.Name)
             {
                 Session["jomarmessage"] = "Schizophrenia!";
@@ -27,71 +23,36 @@ namespace JoMAR.Controllers
             }
 
             JodADataContext db = new JodADataContext();
-            aspnet_User user = (from p in db.aspnet_Users
-                                where p.UserName == User.Identity.Name
-                                select p).First();
+            ChatRoom room = null;
 
-            aspnet_User[] privUser = (from p in db.aspnet_Users
-                                      where p.UserName == name
-                                      select p).ToArray();
+            Profile user = JoMAR.Models.Profile.GetProfile(User.Identity.Name);
+            Profile user2 = JoMAR.Models.Profile.GetProfile(name);
 
-            List<ChatRoom> rooms;
-            if (privUser.Length != 0)
-            {
-                rooms = (from r in db.ChatRooms
-                                    where (r.Name == (User.Identity.Name + name) || r.Name == (name + User.Identity.Name) ) && r.isPrivate && !r.isPublic && r.UserRooms.Count == 2
-                                    select r).ToList();
+            // Does the second user exist?
+            if (user2 != null) // find private room
+                room = Rooms.Private(user, user2, db);
+            else // Find public room
+                room = Rooms.Public(name, db);
 
-                if (rooms.Count == 0)
-                {
-                    ChatRoom newr = new ChatRoom();
-                    newr.UserID = user.UserId;
-                    newr.RoomID = Guid.NewGuid();
-                    newr.isPrivate = true;
-                    newr.Name = (User.Identity.Name + name);
-                    db.ChatRooms.InsertOnSubmit(newr);
-
-                    UserRoom nr = new UserRoom();
-                    nr.UserID = user.UserId;
-                    nr.RoomID = newr.RoomID;
-
-                    UserRoom nr2 = new UserRoom();
-                    nr2.UserID = privUser.First().UserId;
-                    nr2.RoomID = newr.RoomID;
-
-                    db.UserRooms.InsertOnSubmit(nr);
-                    db.UserRooms.InsertOnSubmit(nr2);
-                    db.SubmitChanges();
-
-                    rooms.Add(newr);
-                }
-            } else {
-                rooms = (from p in db.ChatRooms
-                                 where p.Name == name
-                                 select p).ToList();
-            }
-
-            // Public eller medlem?
-            if (rooms.Count == 0)
+            // No room found?
+            if (room == null)
             {
                 Session["jomarmessage"] = "No room found by that name!";
                 return Redirect("/Rooms");
             }
 
-            // Return the first room found
-            ChatRoom room = rooms[0];
-
             var model = new ChatModel(room, db);
             ViewBag.Title = model.Name;
 
-            // Public eller medlem?
-            if (!model.Users.Contains(user) && room.isPrivate)
+            // Is the user member while the room is private?
+            if (!model.Users.Contains(user.User) && room.isPrivate)
             {
                 Session["jomarmessage"] = "The room you tried to access is private, members only!";
                 return Redirect("/Rooms");
             }
 
-            if (!model.Users.Contains(user))
+            // Add the user to the room if necessary
+            if (!model.Users.Contains(user.User))
             {
                 UserRoom r = new UserRoom();
                 r.UserID = user.UserId;
@@ -104,14 +65,10 @@ namespace JoMAR.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult Index(string name, string id, FormCollection collection)
         {
-            if (!Request.IsAuthenticated)
-            {
-                Session["jomarmessage"] = "Log in to chat!";
-                return Redirect("/Rooms/Public");
-            }
             if (name == User.Identity.Name)
             {
                 Session["jomarmessage"] = "Schizophrenia!";
@@ -119,38 +76,24 @@ namespace JoMAR.Controllers
             }
 
             JodADataContext db = new JodADataContext();
-            aspnet_User user = (from p in db.aspnet_Users
-                                where p.UserName == User.Identity.Name
-                                select p).First();
+            ChatRoom room = null;
 
-            aspnet_User[] privUser = (from p in db.aspnet_Users
-                                      where p.UserName == name
-                                      select p).ToArray();
+            Profile user = JoMAR.Models.Profile.GetProfile(User.Identity.Name);
+            Profile user2 = JoMAR.Models.Profile.GetProfile(name);
 
-            List<ChatRoom> rooms;
-            if (privUser.Length != 0)
-            {
-                rooms = (from r in db.ChatRooms
-                         where (r.Name == (User.Identity.Name + name) || r.Name == (name + User.Identity.Name)) && r.isPrivate && !r.isPublic && r.UserRooms.Count == 2
-                         select r).ToList();
-            }
-            else
-            {
-                rooms = (from p in db.ChatRooms
-                         where p.Name == name
-                         select p).ToList();
-            }
+            // Does the second user exist?
+            if (user2 != null) // find private room
+                room = Rooms.Private(user, user2, db);
+            else // Find public room
+                room = Rooms.Public(name, db);
 
-            // If no rooms found
-            if (rooms.Count == 0)
+            // No room found?
+            if (room == null)
             {
                 Session["jomarmessage"] = "No room found by that name!";
                 return Redirect("/Rooms");
             }
 
-            // Return the first room found
-            ChatRoom room = rooms[0];
-            
             // Room members
             List<aspnet_User> users = (from u in db.aspnet_Users
                            join m2m in db.UserRooms on user.UserId equals m2m.UserID
@@ -158,7 +101,7 @@ namespace JoMAR.Controllers
                            select u).ToList();
 
             // Public eller medlem?
-            if (!users.Contains(user) && room.isPrivate)
+            if (!users.Contains(user.User) && room.isPrivate)
             {
                 Session["jomarmessage"] = "The room you tried to access is private, members only!";
                 return Redirect("/Rooms");
@@ -179,8 +122,8 @@ namespace JoMAR.Controllers
             db.ChatMessages.InsertOnSubmit(message);
             db.SubmitChanges();
 
-            var m = new ChatModel(room, db);
-            return View(m);
+            var model = new ChatModel(room, db);
+            return View(model);
         }
 
         public ActionResult Profile()
