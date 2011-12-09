@@ -13,7 +13,7 @@ namespace JoMAR.Controllers
     public class UploadController : Controller
     {
         [Authorize, HttpPost]
-        public void Index(Guid room, HttpPostedFileBase file)
+        public ContentResult Index(Guid room, HttpPostedFileBase file)
         {
             Profile user = JoMAR.Models.Profile.GetProfile(User.Identity.Name);
             JodADataContext db = new JodADataContext();
@@ -29,6 +29,10 @@ namespace JoMAR.Controllers
 
                 Rooms.Post("File uploaded by "+ user.UserName, user.UserId, room, db, fileName);
             }
+
+            ContentResult r = new ContentResult();
+            r.Content = "<script type='text/javascript'>window.close();</script>";
+            return r;
         }
     }
 }
