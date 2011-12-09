@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Diagnostics;
 
 namespace JoMAR.Controllers
 {
@@ -41,19 +42,25 @@ namespace JoMAR.Controllers
 
         public JsonResult getRooms()
         {
+            //Fiks problem seinar
+
+
             JodADataContext db = new JodADataContext();
-            List<string> rooms = new List<string>();
+            //List<ChatRoom> rooms = new List<ChatRoom>();
 
-            ChatRoom[] room = (from p in db.ChatRooms
-                             where p.isPublic
-                             select p).ToArray();
+            ChatRoom[] rooms = (from p in db.ChatRooms
+                        where p.isPublic
+                        select p).ToArray();
 
-            foreach (var r in room)
-            {
-                rooms.Add("Name: " + r.Name + " Owner: " + r.aspnet_User.UserName);
-            }
+            //foreach (var r in room)
+            //    rooms.Add("Room: " + r.Name + " Owner: " + r.aspnet_User.UserName);
+            Debug.WriteLine(rooms[0].Name);
+            Debug.WriteLine(rooms[0].aspnet_User.UserName);
+            JsonResult m = Json(rooms.ToArray(), JsonRequestBehavior.AllowGet);
 
-            return Json(rooms.ToArray(), JsonRequestBehavior.AllowGet);
+            Debug.WriteLine(m.Data);
+
+            return m;
         }
 
         public JsonResult getUsersOnRoom(Guid id)

@@ -74,6 +74,7 @@
     <Compile Include="Controllers\JasonController.cs" />
     <Compile Include="Controllers\EssemessController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -192,6 +193,7 @@
     <Content Include="Views\Rooms\ViewPage1.cshtml" />
     <Content Include="Views\Chat\Profile.cshtml" />
     <Content Include="Views\Essemess\Index.cshtml" />
+    <Content Include="Views\Chat\UploadFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

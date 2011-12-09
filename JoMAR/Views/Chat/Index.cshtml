@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Html.DisplayTextFor(model => model.Name)</h2>
+<h2>Chatroom: @Html.DisplayTextFor(model => model.Name)</h2>
 
 
 
@@ -12,7 +12,7 @@
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>ChatModel</legend>
+        <legend>Chatting</legend>
         <div class="display-label right-float"></div>
         <div class="display-field right-float">
             <h4>Users</h4>
@@ -32,10 +32,13 @@
             @Html.EditorFor(model => model.Message)
             @Html.ValidationMessageFor(model => model.Message)
         </div>
-
         <p>
             <input type="submit" value="Publish message" class="button" />
+            @Html.ActionLink("Upload File", "UploadFile")
         </p>
+
+
+       
     </fieldset>
 }
 <script type="text/javascript">
@@ -56,6 +59,7 @@
         });
     }
     $("Messages").clean();
+
     $("form").submit(function () {
         $.ajax({
             type: "POST",
