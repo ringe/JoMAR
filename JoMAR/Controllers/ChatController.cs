@@ -45,24 +45,15 @@ namespace JoMAR.Controllers
             ViewBag.Title = model.Name;
 
             // Is the user member while the room is private?
-            if (!model.Users.Contains(user.User) && room.isPrivate)
+            if (model.IsMember(user.UserId, db))
+            {
+                return View(model);
+            }
+            else
             {
                 Session["jomarmessage"] = "The room you tried to access is private, members only!";
                 return Redirect("/Rooms");
             }
-
-            // Add the user to the room if necessary
-            if (!model.Users.Contains(user.User))
-            {
-                UserRoom r = new UserRoom();
-                r.UserID = user.UserId;
-                r.RoomID = room.RoomID;
-                db.UserRooms.InsertOnSubmit(r);
-                db.SubmitChanges();
-                model = new JoMAR.Models.ChatModel(room, db);
-            }
-
-            return View(model);
         }
 
         [Authorize, HttpPost]
@@ -93,36 +84,20 @@ namespace JoMAR.Controllers
                 return Redirect("/Rooms");
             }
 
-            // Room members
-            List<aspnet_User> users = (from u in db.aspnet_Users
-                           join m2m in db.UserRooms on user.UserId equals m2m.UserID
-                           where m2m.RoomID == room.RoomID
-                           select u).ToList();
+            var model = new ChatModel(room, db);
+            ViewBag.Title = model.Name;
 
-            // Public eller medlem?
-            if (!users.Contains(user.User) && room.isPrivate)
+            // Is the user member while the room is private?
+            if (model.IsMember(user.UserId, db))
+            {
+                Rooms.Post(collection["Message"], user.UserId, room.RoomID, db);
+                return View(model);
+            }
+            else
             {
                 Session["jomarmessage"] = "The room you tried to access is private, members only!";
                 return Redirect("/Rooms");
             }
-
-            // Prepare message for submit
-            ChatMessage message = new ChatMessage();
-            message.Date = DateTime.Now;
-            message.MessageID = Guid.NewGuid();
-            message.UserID = (from p in db.aspnet_Users
-                                where p.UserName == User.Identity.Name
-                                select p).First().UserId;
-            message.RoomID = room.RoomID;
-            message.Text = collection["Message"];
-
-
-            // Submit message to DB
-            db.ChatMessages.InsertOnSubmit(message);
-            db.SubmitChanges();
-
-            var model = new ChatModel(room, db);
-            return View(model);
         }
 
         public ActionResult Profile()
