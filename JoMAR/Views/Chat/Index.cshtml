@@ -51,7 +51,7 @@
                 var user = "<a href='/Chat/" + item.user + "'>" + item.user + "</a>";
                 var msg = dato + " " + user + ": " + item.text;
                 if (item.image != null) {
-                    msg += " <a href='/uploads/" + item.image + "'>" + item.image + "</a>";
+                    msg += " <a href='" + '@Url.Action("", "uploads")' + "/" + item.image + "'>" + item.image + "</a>";
                 }
                 messages.push(msg);
             });
@@ -59,11 +59,10 @@
         });
     }
 
-    //$("Messages").clean();
     $("form").submit(function () {
         $.ajax({
             type: "POST",
-            url: "/Chat/@Model.UrlName()",
+            url: '@Url.Action(@Model.UrlName(), "Chat")',
             data: $("form").serialize(),
             success: getPosts()
         });
@@ -72,13 +71,13 @@
     );
 
     function getUsers() {
-        $.getJSON("/Jason/getUsersOnRoom/@Model.RoomID", function (data) {
+        $.getJSON('@Url.Action("getUsers", "Jason")/@Model.RoomID', function (data) {
             var emails = [];
             var gravatar = [];
             $.each(eval('(' + data + ')'), function (i, item) {
                 emails.push(item.Email);
                 if (item.UserName != "@User.Identity.Name") {
-                    gravatar.push(item.Gravatar + "<br/><a href='/Chat/" + item.UserName + "'>" + item.UserName + "</a>");
+                    gravatar.push(item.Gravatar + "<br/><a href=" + '@Url.Action("", "Chat")' + "/" + item.UserName + "'>" + item.UserName + "</a>");
                 }
             });
             $("#users").html("<ul style='list-style:none;'><li>" + gravatar.join("</li><li>") + "</li></ul>");
@@ -89,7 +88,7 @@
             var windowSizeArray = ["width=500,height=10", "width=600,height=10,scrollbars=yes"];
             var windowName = "Upload file";
             var windowSize = windowSizeArray;
-            window.open("/Chat/UploadFile/@Model.RoomID", windowName, windowSize);
+            window.open('@Url.Action("uploadFile", "Chat")/@Model.RoomID', windowName, windowSize);
             event.preventDefault();
         });
 </script>

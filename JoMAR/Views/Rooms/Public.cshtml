@@ -43,7 +43,7 @@
     window.setInterval(getRooms, 5000);
 
     function getRooms() {
-        $.getJSON('@Request.ApplicationPath@Url.Action("getRooms", "Jason")', function (result) {
+        $.getJSON('@Url.Action("getRooms", "Jason")', function (result) {
             var header = "<tr><th>Chatrooms</th><th>Owner of room </th><th></th></tr>\n";
             var rooms = [];
             $.each(result, function (k, item) {
