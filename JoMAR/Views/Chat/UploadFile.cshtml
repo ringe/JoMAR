@@ -1,4 +1,6 @@
-﻿@{
+﻿@model JoMAR.Models.ChatModel
+           
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,7 +14,7 @@
         <legend>Chatting upload</legend>
         <p>
             <input type="file" name="file" />
-            <input type="submit" value="Upload File" />
+            <input id="newWindow"type="submit" value="Upload File" />
         </p>
     </fieldset>
 }
@@ -26,6 +28,5 @@
            });
            return false;
        });
-
 </script>
 
