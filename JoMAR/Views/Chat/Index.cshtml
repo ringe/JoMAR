@@ -48,7 +48,7 @@
             $.each(result, function (k, item) {
                 var date = new Date(parseInt(item.date.substr(6)));
                 var dato = date.getDay() + "." + date.getMonth() + " " + +date.getHours() + ":" + date.getMinutes();
-                var user = "<a href='/Chat/" + item.user + "'>" + item.user + "</a>";
+                var user = "<a href='" + '@Url.Action("", "Chat")' + "/" + item.user + "'>" + item.user + "</a>";
                 var msg = dato + " " + user + ": " + item.text;
                 if (item.image != null) {
                     msg += " <a href='" + '@Url.Action("", "uploads")' + "/" + item.image + "'>" + item.image + "</a>";
@@ -64,8 +64,11 @@
             type: "POST",
             url: '@Url.Action(@Model.UrlName(), "Chat")',
             data: $("form").serialize(),
-            success: getPosts()
+            success: function () {
+                getPosts();
+            }
         });
+        $("#Message").val("");
         return false;
     }
     );
