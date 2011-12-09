@@ -57,6 +57,7 @@ namespace JoMAR.Models
 
             Name = room.Name;
             RoomID = room.RoomID;
+            Private = room.isPrivate;
         }
 
         public string Messages() {
@@ -68,6 +69,31 @@ namespace JoMAR.Models
             }
             messages.Sort();
             return string.Join("", messages.ToArray());
+        }
+
+        /// <summary>
+        /// Is the given user a member in this room?
+        /// </summary>
+        /// <param name="user">user id</param>
+        /// <param name="db">JodADataContext</param>
+        /// <returns>true/false</returns>
+        public bool IsMember(Guid user, JodADataContext db)
+        {
+            // See if user is a member already
+            foreach (aspnet_User u in Users)
+                if (u.UserId == user) return true;
+
+            if (Private) // Private room
+                return false;
+            else
+            {
+                UserRoom r = new UserRoom();
+                r.UserID = user;
+                r.RoomID = RoomID;
+                db.UserRooms.InsertOnSubmit(r);
+                db.SubmitChanges();
+                return true;
+            }
         }
 
         public string UrlName()
@@ -88,5 +114,8 @@ namespace JoMAR.Models
 
         [Display(Name = "Message")]
         public string Message { get; set; }
+
+        [Display(Name = "Private")]
+        public bool Private { get; set; }
     }
 }
