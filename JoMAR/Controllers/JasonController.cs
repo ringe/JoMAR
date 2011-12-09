@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Diagnostics;
 using System.Web.Script.Serialization;
+using JoMAR.Models;
 
 namespace JoMAR.Controllers
 {
@@ -69,19 +70,26 @@ namespace JoMAR.Controllers
         public JsonResult getUsersOnRoom(Guid id)
         {
             JodADataContext db = new JodADataContext();
-            List<string> userList = new List<string>();
+            List<Jason> userList = new List<Jason>();
 
-            List<ChatRoom> room = (from p in db.ChatRooms where p.RoomID == id select p).ToList();
+            ChatRoom room = (from p in db.ChatRooms where p.RoomID == id select p).First();
             //aspnet_User[] users = (from user in db.aspnet_Users
             //                       join m2m in db.UserRooms on user.UserId equals m2m.UserID
             //                       where m2m.RoomID == id
             //                       select user).ToArray();
-            //foreach (UserRoom ur in room.UserRooms)
-            //{
-            //    userList.Add(ur.aspnet_User.UserName);
-            //}
+            foreach (UserRoom ur in room.UserRooms)
+            {
+                Profile p = Profile.GetProfile(ur.aspnet_User.UserName);
+                Jason jj = new Jason();
+                jj.Gravatar = p.Image;
+                jj.Email = p.Email;
+                jj.UserId = p.UserId;
+                jj.UserName = p.UserName;
+                userList.Add(jj);
+            }
             JavaScriptSerializer js = new JavaScriptSerializer();
-            return Json(js.Serialize(room), JsonRequestBehavior.AllowGet);
+            
+            return Json(js.Serialize(userList), JsonRequestBehavior.AllowGet);
 
         }
 

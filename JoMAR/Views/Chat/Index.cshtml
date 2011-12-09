@@ -8,11 +8,7 @@
 
 
 <div class="display-label right-float"></div>
-        <div class="display-field right-float">
-            <h4>Users</h4>
-            <ul>
-              <select id="lb" style="width:250px" multiple="multiple" size="10"> </select>
-            </ul>
+        <div class="display-field right-float" id="users">
         </div>
         <div class="display-label left-float"> MessageBoard</div>
         <div class="display-field left-float">        
@@ -45,6 +41,7 @@
     window.setInterval(getUsers, 5000);
 
     $(document).ready(function () {
+        getUsers()
         getPosts()
     });
 
@@ -65,6 +62,20 @@
         return false;
     }
     );
+
+    function getUsers() {
+        $.getJSON("/Jason/getUsersOnRoom/@Model.RoomID", function (data) {
+            var emails = [];
+            var gravatar = [];
+            $.each(eval('(' + data + ')'), function (i, item) {
+                emails.push(item.Email);
+                if (item.UserName != "@User.Identity.Name") {
+                    gravatar.push(item.Gravatar + "<br/><a href='/Chat/" + item.UserName + "'>" + item.UserName + "</a>");
+                }
+            });
+            $("#users").html("<ul style='list-style:none;'><li>" + gravatar.join("</li><li>") + "</li></ul>");
+        });
+    }
 
     $('#upload').click(function () {
             var windowSizeArray = ["width=500,height=10", "width=600,height=10,scrollbars=yes"];
